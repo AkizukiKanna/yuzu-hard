@@ -1,0 +1,51 @@
+body {
+  height: 3000px;
+  font-family: Arial;
+  font-size: 12px;
+  background-image: url("../../img/bg.jpg");
+}
+body a {
+  text-decoration: none;
+}
+nav.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 18px;
+  line-height: 74px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.scroll-top {
+  background-color: rgba(0, 0, 0, 0);
+  transition: all 0.4s;
+}
+.scroll-medium {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 1px 40px -8px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s;
+}
+nav.top-bar:hover {
+  background-color: #fff;
+  transition: all 0.4s;
+}
+nav.top-bar .logo {
+  display: block;
+  width: 200px;
+}
+nav.top-bar .right-wrapper {
+  height: 74px;
+  display: flex;
+}
+nav.top-bar .right-wrapper a {
+  display: block;
+  width: 100px;
+  text-align: center;
+}
+.right-wrapper a:hover {
+  color: white;
+  transition: all 0.4s;
+  background-color: #ffa600;
+}
+/*# sourceMappingURL=./base.css.map */
