@@ -1,18 +1,62 @@
-<nav class="top-bar scroll-top" th:fragment="html">
-    <a class="logo" href="#nowhere"><img src="" alt="logo"></a>
+<nav class="nav" th:fragment="html">
+    <!-- 桌面端导航条 -->
+    <div class="top-wrapper hidden-xs">
+        <div class="top-bar scroll-top">
+            <a class="logo" href="#nowhere"><img src="" alt="logo"></a>
+            <ul class="right-wrapper ">
+                <li><a href="#nowhere">test1</a></li>
+                <li><a href="#nowhere">test2</a></li>
+                <li><a href="#nowhere">test3</a></li>
+                <li><a href="#nowhere">test4</a></li>
+                <li><a href="#nowhere">test5</a></li>
+                <li><a href="#nowhere">test6</a></li>
+                <li><a href="#nowhere">test7</a></li>
+                <li><a href="#nowhere">test8</a></li>
+                <li><a href="#nowhere">test9</a></li>
+                <li><a href="#nowhere">test10</a></li>
+                <li><a href="#nowhere">test11</a></li>
+                <li><a href="#nowhere">test12</a></li>
+            </ul>
+        </div>
+    </div>
 
-    <ul class="right-wrapper">
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-        <li><a href="#nowhere">test</a></li>
-    </ul>
+    <!-- 移动端顶部导航条 -->
+    <div class="m-top-wrapper visible-xs">
+        <div class="m-top-bar">
+            <!-- 创建菜单图标 -->
+            <ul class="menu-icon">
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <!-- logo -->
+            <h1 class="logo">
+                <a href="#nowhere">YUZU-HARD</a>
+            </h1>
+        </div>
+    </div>
+
+    <!-- 移动端侧边栏 -->
+    <div class="m-side-wrapper visible-xs">
+        <ul class="m-side-bar">
+            <li><img width="90px" height="90px" src="img/headSculpture.jpg" alt="头像"></li>
+            <li><a href="#nowhere">test1</a></li>
+            <li><a href="#nowhere">test2</a></li>
+            <li><a href="#nowhere">test3</a></li>
+            <li><a href="#nowhere">test</a></li>
+            <li><a href="#nowhere">test</a></li>
+            <li><a href="#nowhere">test</a></li>
+            <li><a href="#nowhere">test</a></li>
+            <li><a href="#nowhere">test</a></li>
+            <li><a href="#nowhere">test</a></li>
+            <li><a href="#nowhere">test10</a></li>
+
+
+        </ul>
+        <!-- 手机端侧边栏右边空白区域 -->
+        <div class="_menu-right-wrapper m-display-none">
+            <div class="_menu-right"></div>
+        </div>
+
+    </div>
 </nav>

@@ -1,13 +1,16 @@
 body {
+  transition: all 0.5s;
   height: 3000px;
   font-family: Arial;
   font-size: 12px;
-  background-image: url("../../img/bg.jpg");
 }
 body a {
   text-decoration: none;
 }
-nav.top-bar {
+body a:link {
+  text-decoration: none;
+}
+nav div.top-bar {
   position: fixed;
   top: 0;
   left: 0;
@@ -16,6 +19,112 @@ nav.top-bar {
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+nav div.top-bar:hover {
+  background-color: #fff;
+  transition: all 0.4s;
+}
+nav div.top-bar .logo {
+  display: block;
+  width: 200px;
+}
+nav div.top-bar .right-wrapper {
+  display: flex;
+}
+nav div.top-bar .right-wrapper a {
+  color: black;
+  display: block;
+  width: 100px;
+  text-align: center;
+}
+nav div.top-bar .right-wrapper a:hover {
+  color: white;
+  transition: all 0.4s;
+  text-decoration: none;
+  background-color: #ffa600;
+}
+nav div.m-top-bar {
+  padding: 0 15px;
+  font-size: 20px;
+  line-height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+nav div.m-top-bar .menu-icon {
+  width: 36px;
+  height: 48px;
+  position: relative;
+  z-index: 9997;
+  transition: all 0.5s;
+}
+nav div.m-top-bar .menu-icon li {
+  width: 26px;
+  height: 3px;
+  background-color: #000000;
+  position: absolute;
+  transform-origin: left center;
+  transition: 0.5s;
+}
+nav div.m-top-bar .menu-icon li:nth-child(1) {
+  top: 16px;
+}
+nav div.m-top-bar .menu-icon li:nth-child(2) {
+  top: 24px;
+}
+nav div.m-top-bar .menu-icon li:nth-child(3) {
+  top: 32px;
+}
+nav div.m-top-bar .logo a {
+  color: black;
+  display: block;
+}
+nav div.m-top-bar .logo a:hover {
+  color: orange;
+}
+nav .m-side-bar {
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  left: -251px;
+  border-right: whitesmoke 1px solid;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  transition: all 0.5s;
+}
+nav .m-side-bar > li:nth-child(1) {
+  width: 90px;
+  height: 90px;
+  margin: 30px 0 20px 0;
+  box-sizing: content-box;
+  border-radius: 50%;
+  overflow: hidden;
+}
+nav .m-side-bar li {
+  width: 100%;
+}
+nav .m-side-bar li a {
+  text-align: center;
+  height: 34px;
+  display: block;
+  color: #000;
+  line-height: 34px;
+}
+nav .m-side-bar li a:hover {
+  background-color: orange;
+  color: white;
+}
+nav ._menu-right-wrapper ._menu-right {
+  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .scroll-top {
   background-color: rgba(0, 0, 0, 0);
@@ -26,26 +135,30 @@ nav.top-bar {
   box-shadow: 0 1px 40px -8px rgba(0, 0, 0, 0.5);
   transition: all 0.4s;
 }
-nav.top-bar:hover {
-  background-color: #fff;
-  transition: all 0.4s;
+.menu-icon-select li:nth-child(1) {
+  transform: rotateZ(40deg);
 }
-nav.top-bar .logo {
+.menu-icon-select li:nth-child(2) {
+  opacity: 0;
+}
+.menu-icon-select li:nth-child(3) {
+  transform: rotateZ(-40deg);
+}
+.select {
+  transition: all 0.5s;
+  transform: translateX(251px);
+}
+.body-selected {
+  transition: all 0.5s;
+  transform: translateX(251px);
+  overflow: hidden;
+}
+.m-display-none {
+  display: none;
+}
+.m-display-block {
   display: block;
-  width: 200px;
 }
-nav.top-bar .right-wrapper {
-  height: 74px;
-  display: flex;
-}
-nav.top-bar .right-wrapper a {
-  display: block;
-  width: 100px;
-  text-align: center;
-}
-.right-wrapper a:hover {
-  color: white;
-  transition: all 0.4s;
-  background-color: #ffa600;
+@media only screen {
 }
 /*# sourceMappingURL=./base.css.map */
