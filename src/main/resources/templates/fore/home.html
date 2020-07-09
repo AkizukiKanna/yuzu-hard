@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
  <head th:include="include/fore/header::html" ></head>
+
+ <style>
+     #box {
+         position: relative;
+         height: 2000px;
+         background-color: #bfa;
+         z-index: 1;
+     }
+ </style>
+
 <body>
 <div id="workingArea">
     <div th:replace="include/fore/top-bar::html" ></div>
@@ -8,5 +18,8 @@
     <div th:replace="include/fore/home/homePage::html" ></div>
 <!--    <div th:replace="include/fore/footer::html" ></div> -->
 </div>
+
+<div id="box"></div>
+
 </body>
 </html>

@@ -1,6 +1,103 @@
-.head-img {
+.head-content-container {
+    margin-top: -48px;
     width: 100%;
-    height: 3000px;
-    background-image: url("../../img/m-bg.png");
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    z-index: -1;
+}
+.head-content-container .video-container {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../../img/m-bg.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+.head-content-container .circle {
+    width: 150%;
+    height: 4.375rem;
+    background: white;
+    left: -25%;
+    bottom: -2.875rem;
+    border-radius: 100%;
+    position: absolute;
+}
+@media only screen {
+}
+@media only screen and (min-width: 768px) {
+    .head-content-container {
+        margin-top: 0;
+        height: 100vh;
+        z-index: 0;
+    }
+    .head-content-container .content-wrapper {
+        height: 100%;
+    }
+    .head-content-container .content-wrapper .content {
+        width: 768px;
+        height: 300px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -150px;
+        margin-left: -384px;
+        z-index: 999;
+    }
+    .head-content-container .content-wrapper .content .head-img {
+        display: block;
+        width: 130px;
+        height: 130px;
+        border: 5px solid #796b6f;
+        margin: 0 auto;
+        border-radius: 50%;
+        overflow: hidden;
+        transform: rotateZ(0);
+        transition: all 1s;
+    }
+    .head-content-container .content-wrapper .content .head-img:hover {
+        transform: rotateZ(1turn);
+        transition: all 1s;
+    }
+    .head-content-container .content-wrapper .content .head-info {
+        border-radius: 20px;
+        background-color: rgba(0, 0, 0, 0.6);
+        text-align: center;
+        height: 40px;
+        margin: 30px;
+        line-height: 40px;
+        color: #EAEADF;
+        font-size: 20px;
+        font-weight: 900;
+    }
+    .head-content-container .content-wrapper .content .link-wrapper .link {
+        width: 200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    .head-content-container .content-wrapper .content .link-wrapper .link li {
+        overflow: hidden;
+        padding: 5px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .head-content-container .content-wrapper .content .link-wrapper .link li a {
+        display: block;
+        width: 23px;
+        height: 23px;
+    }
+    .head-content-container .content-wrapper .content .link-wrapper .link li a img {
+        width: 23px;
+        height: 23px;
+    }
+    .head-content-container .content-wrapper .content .link-wrapper .link li a:link {
+        text-decoration: none;
+    }
+    .head-content-container .video-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-image: url("../../../img/bg.png");
+    }
 }
 /*# sourceMappingURL=./home.css.map */

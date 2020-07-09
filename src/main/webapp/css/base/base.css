@@ -1,8 +1,21 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-image: linear-gradient(135deg, #1DE9B6 0%, #08c4db 72%, #057494 100%);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(71, 71, 71, 0.5);
+  border-radius: 4px;
+}
+::selection {
+  background: #DDDDDE;
+}
 body {
   transition: all 0.5s;
   height: 3000px;
   font-family: Arial;
   font-size: 12px;
+  background-color: #bfa !important;
 }
 body a {
   text-decoration: none;
@@ -12,6 +25,7 @@ body a:link {
 }
 nav div.top-bar {
   position: fixed;
+  z-index: 9990;
   top: 0;
   left: 0;
   font-size: 18px;
@@ -32,10 +46,10 @@ nav div.top-bar .right-wrapper {
   display: flex;
 }
 nav div.top-bar .right-wrapper a {
-  color: black;
   display: block;
   width: 100px;
   text-align: center;
+  color: #646461;
 }
 nav div.top-bar .right-wrapper a:hover {
   color: white;
@@ -82,43 +96,54 @@ nav div.m-top-bar .logo a {
 nav div.m-top-bar .logo a:hover {
   color: orange;
 }
-nav .m-side-bar {
+nav .m-side-wrapper .m-side-bar {
   position: absolute;
   z-index: 9999;
   top: 0;
   left: -251px;
   border-right: whitesmoke 1px solid;
-  width: 250px;
+  width: 251px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
+  overflow: auto auto;
   transition: all 0.5s;
 }
-nav .m-side-bar > li:nth-child(1) {
+nav .m-side-wrapper .m-side-bar > li:nth-child(1) {
+  margin: 30px 0 20px 0;
+  background-color: whitesmoke;
+}
+nav .m-side-wrapper .m-side-bar > li:nth-child(1) div {
   width: 90px;
   height: 90px;
-  margin: 30px 0 20px 0;
+  margin: 0 auto;
   box-sizing: content-box;
   border-radius: 50%;
   overflow: hidden;
+  position: relative;
+  transition: transform 1s;
 }
-nav .m-side-bar li {
+nav .m-side-wrapper .m-side-bar > li:nth-child(1) div:hover {
+  transition: transform 1s;
+  transform: rotateZ(360deg);
+}
+nav .m-side-wrapper .m-side-bar li {
   width: 100%;
 }
-nav .m-side-bar li a {
+nav .m-side-wrapper .m-side-bar li a {
   text-align: center;
   height: 34px;
   display: block;
   color: #000;
   line-height: 34px;
 }
-nav .m-side-bar li a:hover {
+nav .m-side-wrapper .m-side-bar li a:hover {
   background-color: orange;
   color: white;
 }
-nav ._menu-right-wrapper ._menu-right {
+nav .m-side-wrapper ._menu-right-wrapper ._menu-right {
   z-index: 9998;
   width: 100vw;
   height: 100vh;
@@ -160,5 +185,14 @@ nav ._menu-right-wrapper ._menu-right {
   display: block;
 }
 @media only screen {
+}
+@media only screen and (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+    /*隐藏滚轮*/
+  }
 }
 /*# sourceMappingURL=./base.css.map */
