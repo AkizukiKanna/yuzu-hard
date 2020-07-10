@@ -1,0 +1,37 @@
+/*分页栏样式*/
+#pageDiv{
+	display: flex;
+	flex-direction: row;
+	font-size: 18px;
+	margin-top: 10px;
+	justify-content:center;
+	text-align: center;
+}
+#pageDiv li{
+	border: 1px solid rgb(221, 221, 221);
+	border-right: none;
+}
+#pageDiv li:first-child{
+	border-radius: 5px 0 0 5px;
+}
+#pageDiv li:last-child{
+	border-radius:0 5px 5px 0;
+	border-right:1px solid rgb(221, 221, 221);
+}
+#pageDiv li a{
+	display: block;
+	width: 40px;
+	height: 38px;
+	line-height: 38px;
+	color: #999;
+}
+#pageDiv li a:hover{
+	color: white;
+	background-color: orange;
+}
+
+
+#pageDiv .disabled{
+	pointer-events:none;
+	background-color: #e2e2e2;
+}

@@ -7,6 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AdminPageController {
     @GetMapping("/yuzu_admin")
     public String admin(){
-        return "admin/list";
+        return "admin/userInfo";
+    }
+    @GetMapping("/userInfo")
+    public String userInfo(){
+        return "admin/userInfo";
+    }
+    @GetMapping("/listCategory")
+    public String listCategory(){
+        return "admin/listCategory";
     }
 }
