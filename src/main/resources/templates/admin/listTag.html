@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
     $(function () {
         var data4Vue = {
-            uri: 'categories',
+            uri: 'tags',
             beans: [],
             pagination: {},
             bean: {},
@@ -44,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     });
                 },
                 add: function () {
-                    if (!checkEmpty(this.bean.name, "分类名称"))
+                    if (!checkEmpty(this.bean.name, "标签名称"))
                         return;
 
                     var url = this.uri;
@@ -55,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     })
                 },
                 undo:function(){
-                  alert("此功能还没做")
+                    alert("此功能还没做")
                 },
                 jump: function (page) {
                     jump(page, vue); //定义在adminHeader.html 中
@@ -85,7 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">分类和标签 > 分类</h1>
+                            <h1 class="m-0 text-dark">分类和标签 > 标签</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -103,7 +103,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">分类信息</h3>
+                        <h3 class="card-title">标签信息</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -122,13 +122,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     ID
                                 </th>
                                 <th style="width: 20%">
-                                    分类名
+                                    标签名
                                 </th>
                                 <th style="width: 30%">
-                                    分类描述
+                                    标签描述
                                 </th>
                                 <th>
-                                    该分类下的文章数
+                                    该标签下的文章数
                                 </th>
                                 <th style="width: 8%" class="text-center">
                                     状态
@@ -160,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </i>
                     文章
                   </span>
-                                    <a :href="'admin_category_edit?id='+bean.id">
+                                    <a :href="'admin_tag_edit?id='+bean.id">
                                         <span class="btn btn-info btn-sm">
                     <i class="fas fa-pencil-alt">
                     </i>
@@ -195,7 +195,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">新增分类</h3>
+                        <h3 class="card-title">新增标签</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -203,13 +203,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="card-body">
                             <div class="form-group">
                                 <label>分类名称</label>
-                                <input type="text" class="form-control" id="categoryName"
-                                       placeholder="请输入新的分类名" v-model="bean.name" autocomplete="off">
+                                <input type="text" class="form-control" id="tagName"
+                                       placeholder="请输入新的标签名" v-model="bean.name" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>分类描述</label>
-                                <input type="text" class="form-control" id="categoryDescription"
-                                       placeholder="请输入分类描述" v-model="bean.description" autocomplete="off">
+                                <input type="text" class="form-control" id="tagDescription"
+                                       placeholder="请输入标签描述" v-model="bean.description" autocomplete="off">
                             </div>
                         </div>
                         <!-- /.card-body -->
