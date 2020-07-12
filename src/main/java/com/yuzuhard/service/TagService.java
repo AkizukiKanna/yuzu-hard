@@ -50,4 +50,8 @@ public class TagService {
         bean.setStatus(saved);
         tagDAO.save(bean);
     }
+
+    public Object findIdNameUseStatus(String status){
+        return tagDAO.findIdNameUseStatus(status);
+    }
 }

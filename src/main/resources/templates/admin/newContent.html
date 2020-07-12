@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head th:include="include/admin/adminHeader::html"></head>
+<!--编辑器插件-->
+<link rel="stylesheet" href="editormd/css/editormd.css"/>
+<script src="editormd/editormd.min.js"></script>
+<script>
+    $(function () {
+        var data4Vue = {
+            uri: 'contents',
+            bean: {},
+            categories: [],
+            tags: [],
+            //将要提交的
+            category: {},
+            tag: []
+        };
+
+        var vue = new Vue({
+            el: '#workArea',
+            data: data4Vue,
+
+            mounted: function () {
+                this.getContent();
+                this.getTag();
+                this.getCategory();
+            },
+            methods: {
+                getContent: function () {
+                    var url = this.uri + "/" + 7;
+                    axios.get(url).then(function (response) {
+                        vue.bean = response.data;
+                        console.log((vue.bean.text));
+                        vue.$nextTick(function () {
+                            var editor = editormd("test-editor", {
+                                width: "100%",
+                                height: "600px",
+                                // theme : "dark",
+                                // previewTheme : "dark",
+                                // editorTheme : "pastel-on-dark",
+                                saveHTMLToTextarea: true, // 保存 HTML 到 Textarea
+                                imageUpload: true,
+                                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                imageUploadURL: "/file/uploadImage",
+                                htmlDecode: "style,script,iframe,sub,sup|on*",
+                                path: "editormd/lib/"
+                            });
+                        })
+                    })
+                },
+                getCategory: function () {
+                    var status = 'saved'
+                    var url = "categories/findIdName/" + status;
+                    axios.get(url).then(function (response) {
+                        vue.categories = response.data;
+                        vue.category = vue.categories[0];
+                    })
+                },
+                getTag: function () {
+                    var status = 'saved'
+                    var url = "tags/findIdName/" + status;
+                    axios.get(url).then(function (response) {
+                        vue.tags = response.data;
+                    })
+                },
+                add: function () {
+                    var url = this.uri;
+                    var text = $('.editormd-markdown-textarea').val();
+                    this.bean.text = text;
+                    axios.post(url, this.bean).then(function (response) {
+
+                    })
+                }
+            }
+        });
+    })
+</script>
+
+<body class="hold-transition sidebar-mini">
+<div id="workArea">
+    <div class="wrapper">
+        <!--顶部导航条-->
+        <div th:replace="include/admin/adminNav::html"></div>
+
+        <!--左边菜单-->
+        <div th:replace="include/admin/adminAside-left::html"></div>
+
+
+        <!--内容区-->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">博客文章 > 新的博客</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Starter Page</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <div class="content">
+
+                <div id="test-editor">
+                    <textarea style="display:none;">{{bean.text}}</textarea>
+                </div>
+
+
+                <div class="row">
+                    <!--左列-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>选择标签</label>
+                            <div class="form-check">
+                                <label class="form-check-label" v-for="oneTag in tags" style="width: 15%;marginRight:10%;">
+                                    <input class="form-check-input" type="checkbox" :value="oneTag.id" v-model="tag">
+                                    {{oneTag.name}}
+                                </label>
+                            </div>
+                        </div>
+                        {{tag}}
+                    </div>
+                    <!--右列-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>选择分类</label>
+                            <select class="form-control" v-model="category">
+                                <option v-for="category in categories" :value="category">{{category.name}}</option>
+                            </select>
+                        </div>
+                        {{category}}
+                        <button class="btn btn-primary" @Click="add">增加</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- /.content -->
+        </div>
+
+
+        <!--右边菜单-->
+        <div th:replace="include/admin/adminAside-right::html"></div>
+        <!--页脚-->
+        <div th:replace="include/admin/adminFooter::html"></div>
+    </div>
+
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+
+</div>
+</body>
+
+</html>

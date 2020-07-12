@@ -25,4 +25,100 @@ public class Content {
     String password;
     String allowComment;
     int pvNum;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getArticleAbstract() {
+        return articleAbstract;
+    }
+
+    public void setArticleAbstract(String articleAbstract) {
+        this.articleAbstract = articleAbstract;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getFirstImg() {
+        return firstImg;
+    }
+
+    public void setFirstImg(String firstImg) {
+        this.firstImg = firstImg;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAllowComment() {
+        return allowComment;
+    }
+
+    public void setAllowComment(String allowComment) {
+        this.allowComment = allowComment;
+    }
+
+    public int getPvNum() {
+        return pvNum;
+    }
+
+    public void setPvNum(int pvNum) {
+        this.pvNum = pvNum;
+    }
 }

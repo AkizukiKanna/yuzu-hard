@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head th:include="include/admin/adminHeader::html"></head>
+<!--编辑器插件-->
+<link rel="stylesheet" href="editormd/css/editormd.css"/>
+<script src="editormd/editormd.min.js"></script>
+<script>
+    $(function () {
+        var data4Vue = {
+            uri: 'contents',
+            bean: {},
+            file: ''
+        };
+
+        var vue = new Vue({
+            el: '#workArea',
+            data: data4Vue,
+
+            mounted: function () {
+                this.get();
+            },
+            methods: {
+                get: function () {
+                    var url = this.uri+"/"+7;
+                    axios.get(url).then(function (response) {
+                        vue.bean = response.data;
+                        console.log(vue.bean)
+                        //渲染完才把md转为html
+                        vue.$nextTick(function () {
+                            testEditormd = editormd.markdownToHTML("test-editormd-view", {
+                                htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                                emoji           : true,
+                                taskList        : true,
+                                tex             : true,  // 默认不解析
+                                flowChart       : true,  // 默认不解析
+                                sequenceDiagram : true,  // 默认不解析
+                            });
+                        })
+                    })
+                },
+
+            }
+        });
+    })
+</script>
+<body>
+<div id="workArea">
+
+<div id="test-editormd-view">
+    <textarea id="markdownView" style="display:none;">{{bean.text}}</textarea>
+</div>
+
+
+
+</div>
+<script src="editormd/lib/marked.min.js"></script>
+<script src="editormd/lib/prettify.min.js"></script>
+<script src="editormd/lib/raphael.min.js"></script>
+<script src="editormd/lib/underscore.min.js"></script>
+<script src="editormd/lib/sequence-diagram.min.js"></script>
+<script src="editormd/lib/flowchart.min.js"></script>
+<script src="editormd/lib/jquery.flowchart.min.js"></script>
+</body>
+</html>

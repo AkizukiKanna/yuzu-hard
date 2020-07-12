@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head th:include="include/admin/adminHeader::html"></head>
+
+<script>
+    $(function () {
+        var data4Vue = {
+            uri: 'contents',
+            beans: [],
+            pagination: {},
+            bean: {},
+        };
+
+        var vue = new Vue({
+            el: '#workArea',
+            data: data4Vue,
+
+            mounted: function () {
+                this.list(0);
+            },
+            methods: {
+                list: function (start) {
+                    var url = this.uri + "?start=" + start;
+                    axios.get(url).then(function (reseponse) {
+                        vue.pagination = reseponse.data;
+                        vue.beans = reseponse.data.content;
+                    })
+                },
+                deleteBean: function (id) {
+                    if (!checkDeleteLink())
+                        return;
+                    var url = this.uri + "/" + id;
+                    axios.delete(url).then(function (response) {
+                        if (0 != response.data.length) {
+                            alert(response.data);
+                        } else {
+                            vue.list(vue.pagination.number);
+                        }
+                    });
+                },
+                add: function () {
+                    if (!checkEmpty(this.bean.name, "分类名称"))
+                        return;
+
+                    var url = this.uri;
+                    axios.post(url, this.bean).then(function (response) {
+                        vue.bean.name = '';
+                        vue.bean.description = '';
+                        vue.list(0);
+                    })
+                },
+                draft :function(){
+                    alert("此功能还没做")
+                },
+                publish: function(){
+                    alert("此功能还没做")
+                },
+                undo: function () {
+                    alert("此功能还没做")
+                },
+                jump: function (page) {
+                    jump(page, vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function (start) {
+                    jumpByNumber(start, vue);
+                }
+            }
+        });
+    })
+</script>
+
+<body class="hold-transition sidebar-mini">
+<div id="workArea">
+    <div class="wrapper">
+        <!--顶部导航条-->
+        <div th:replace="include/admin/adminNav::html"></div>
+
+        <!--左边菜单-->
+        <div th:replace="include/admin/adminAside-left::html"></div>
+
+
+        <!--内容区-->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">博客文章 > 所有文章</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Starter Page</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <div class="content">
+                <!-- Default box -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">分类信息</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped projects">
+                            <thead>
+                            <tr>
+                                <th style="width: 1%">
+                                    ID
+                                </th>
+                                <th style="width: 15%">
+                                    标题
+                                </th>
+                                <th style="width: 15%">
+                                    展示图
+                                </th>
+                                <th style="width: 11%">
+                                    创建时间
+                                </th>
+                                <th style="width: 11%">
+                                    最后修改时间
+                                </th>
+
+
+                                <th style="width: 7%">
+                                    访问密码
+                                </th>
+                                <th style="width: 1%">
+                                    评论
+                                </th>
+                                <th style="width: 5%">
+                                    浏览数
+                                </th>
+                                <th style="width: 5%">
+                                    状态
+                                </th>
+                                <th style="width: 20%">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="bean in beans">
+                                <td>
+                                    {{bean.id}}
+                                </td>
+                                <td>
+                                    {{bean.title}}
+                                </td>
+                                <td>
+                                    {{bean.firstImg}}
+                                </td>
+                                <td>
+                                    {{bean.created | formatDateFilter}}
+                                </td>
+                                <td>
+                                    {{bean.modified | formatDateFilter}}
+                                </td>
+
+
+                                <td>
+                                    {{bean.password}}
+                                </td>
+                                <td class="project_progress">
+                                    {{bean.allowComment}}
+                                </td>
+                                <td class="project-state">
+                                    {{bean.pvNum}}
+                                </td>
+                                <td>
+                                    {{bean.status}}
+                                </td>
+                                <td class="project-actions text-right">
+                  <span class="btn btn-primary btn-sm" href="#" v-if="bean.status=='draft'" @Click="publish(bean.id)">
+                    <i class="fas fa-share">
+                    </i>
+                    发布
+                  </span>
+                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='published'" @Click="draft(bean.id)">
+                    <i class="fas fa-reply">
+                    </i>
+                    撤下
+                  </span>
+                                    <a :href="'admin_category_edit?id='+bean.id">
+                                        <span class="btn btn-info btn-sm">
+                    <i class="fas fa-pencil-alt">
+                    </i>
+                    编辑
+                  </span>
+                                    </a>
+
+                                    <span class="btn btn-danger btn-sm" href="#" @Click="deleteBean(bean.id)"
+                                          v-if="bean.status!='deleted'">
+                    <i class="fas fa-trash">
+                    </i>
+                    删除
+                  </span>
+                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='deleted'" @Click="undo(bean.id)">
+                    <i class="fas fa-undo">
+                    </i>
+                    恢复
+                  </span>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <!--分页-->
+                        <div th:replace="include/admin/adminPage::html"></div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">新增分类</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>分类名称</label>
+                                <input type="text" class="form-control" id="categoryName"
+                                       placeholder="请输入新的分类名" v-model="bean.name" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label>分类描述</label>
+                                <input type="text" class="form-control" id="categoryDescription"
+                                       placeholder="请输入分类描述" v-model="bean.description" autocomplete="off">
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button class="btn btn-primary" @Click="add">增加</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.content -->
+        </div>
+
+
+        <!--右边菜单-->
+        <div th:replace="include/admin/adminAside-right::html"></div>
+        <!--页脚-->
+        <div th:replace="include/admin/adminFooter::html"></div>
+    </div>
+
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+</div>
+</body>
+
+
+</html>

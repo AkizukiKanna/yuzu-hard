@@ -48,4 +48,8 @@ public class CategoryService {
         bean.setStatus(saved);
         categoryDAO.save(bean);
     }
+
+    public Object findIdNameUseStatus(String status){
+        return categoryDAO.findIdNameUseStatus(status);
+    }
 }

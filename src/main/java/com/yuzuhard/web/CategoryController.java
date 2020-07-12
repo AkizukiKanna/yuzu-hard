@@ -42,4 +42,10 @@ public class CategoryController {
         categoryService.update(bean);
         return Result.success(bean);
     }
+
+    //根据状态返回id和分类名
+    @GetMapping("/categories/findIdName/{status}")
+    public Object findIdNameUseStatus(@PathVariable("status") String status)throws Exception{
+        return categoryService.findIdNameUseStatus(status);
+    }
 }

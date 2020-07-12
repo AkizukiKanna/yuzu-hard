@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 @Service
 public class ContentService {
@@ -29,5 +30,18 @@ public class ContentService {
         //不需要查出摘要和文章，太大了
         Page pageFromJPA = contentDAO.findNotAbstractAndText(pageable);
         return new Page4Navigator<>(pageFromJPA,navigatePages);
+    }
+
+
+
+
+    public void add(Content content){
+        content.setText(HtmlUtils.htmlEscape(content.getText()));
+        contentDAO.save(content);
+    }
+    public Content get(int id){
+        Content content = contentDAO.findById(id).get();
+        content.setText(HtmlUtils.htmlUnescape(content.getText()));
+        return content;
     }
 }

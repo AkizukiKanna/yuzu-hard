@@ -1,4 +1,4 @@
-<template th:fragment="html" >
+<template th:fragment="html">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,103 +14,115 @@
     <script src="js/axios.min.js"></script>
     <!-- bs-custom-file-input -->
     <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <!-- 日期格式化-->
+    <script src="js/moment.js"></script>
     <link href="css/back/style.css" rel="stylesheet">
-
 
 
     <script>
         //判断是否为空
-        function checkEmpty(value,text){
+        function checkEmpty(value, text) {
 
-            if(null==value || value.length==0){
-                alert(text+ "不能为空");
+            if (null == value || value.length == 0) {
+                alert(text + "不能为空");
                 return false;
             }
             return true;
         }
 
         //获取地址栏参数的函数
-        function getUrlParms(para){
-            var search=location.search; //页面URL的查询部分字符串
-            var arrPara=new Array(); //参数数组。数组单项为包含参数名和参数值的字符串，如“para=value”
-            var arrVal=new Array(); //参数值数组。用于存储查找到的参数值
+        function getUrlParms(para) {
+            var search = location.search; //页面URL的查询部分字符串
+            var arrPara = new Array(); //参数数组。数组单项为包含参数名和参数值的字符串，如“para=value”
+            var arrVal = new Array(); //参数值数组。用于存储查找到的参数值
 
-            if(search!=""){
-                var index=0;
-                search=search.substr(1); //去除开头的“?”
-                arrPara=search.split("&");
+            if (search != "") {
+                var index = 0;
+                search = search.substr(1); //去除开头的“?”
+                arrPara = search.split("&");
 
-                for(i in arrPara){
-                    var paraPre=para+"="; //参数前缀。即参数名+“=”，如“para=”
-                    if(arrPara[i].indexOf(paraPre)==0&& paraPre.length<arrPara[i].length){
-                        arrVal[index]=decodeURI(arrPara[i].substr(paraPre.length)); //顺带URI解码避免出现乱码
+                for (i in arrPara) {
+                    var paraPre = para + "="; //参数前缀。即参数名+“=”，如“para=”
+                    if (arrPara[i].indexOf(paraPre) == 0 && paraPre.length < arrPara[i].length) {
+                        arrVal[index] = decodeURI(arrPara[i].substr(paraPre.length)); //顺带URI解码避免出现乱码
                         index++;
                     }
                 }
             }
 
-            if(arrVal.length==1){
+            if (arrVal.length == 1) {
                 return arrVal[0];
-            }else if(arrVal.length==0){
+            } else if (arrVal.length == 0) {
                 return null;
-            }else{
+            } else {
                 return arrVal;
             }
         }
 
         //判断是否数字 (小数和整数)
-        function checkNumber(value, text){
+        function checkNumber(value, text) {
 
-            if(value.length==0){
-                alert(text+ "不能为空");
+            if (value.length == 0) {
+                alert(text + "不能为空");
                 return false;
             }
-            if(isNaN(value)){
-                alert(text+ "必须是数字");
+            if (isNaN(value)) {
+                alert(text + "必须是数字");
                 return false;
             }
             return true;
         }
-        //判断是否整数
-        function checkInt(value, text){
 
-            if(value.length==0){
-                alert(text+ "不能为空");
+        //判断是否整数
+        function checkInt(value, text) {
+
+            if (value.length == 0) {
+                alert(text + "不能为空");
                 return false;
             }
-            if(parseInt(value)!=value){
-                alert(text+ "必须是整数");
+            if (parseInt(value) != value) {
+                alert(text + "必须是整数");
                 return false;
             }
             return true;
         }
 
         //确实是否要删除
-        function checkDeleteLink(){
+        function checkDeleteLink() {
             var confirmDelete = confirm("确认要删除");
-            if(confirmDelete)
+            if (confirmDelete)
                 return true;
             return false;
         }
+
         //跳转函数
-        function jump(page,vue){
-            if('first'== page && !vue.pagination.first)
+        function jump(page, vue) {
+            if ('first' == page && !vue.pagination.first)
                 vue.list(0);
 
-            else if('pre'== page &&	vue.pagination.hasPrevious )
-                vue.list(vue.pagination.number-1);
+            else if ('pre' == page && vue.pagination.hasPrevious)
+                vue.list(vue.pagination.number - 1);
 
-            else if('next'== page && vue.pagination.hasNext)
-                vue.list(vue.pagination.number+1);
+            else if ('next' == page && vue.pagination.hasNext)
+                vue.list(vue.pagination.number + 1);
 
-            else if('last'== page && !vue.pagination.last)
-                vue.list(vue.pagination.totalPages-1);
+            else if ('last' == page && !vue.pagination.last)
+                vue.list(vue.pagination.totalPages - 1);
         }
+
         //跳转函数
-        function jumpByNumber(start,vue){
-            if(start!=vue.pagination.number)
+        function jumpByNumber(start, vue) {
+            if (start != vue.pagination.number)
                 vue.list(start);
         }
+
+        //日期格式化
+        Vue.filter('formatDateFilter', function (value, formatString) {
+            if (null == value)
+                return "";
+            formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+            return moment(value).format(formatString);
+        });
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

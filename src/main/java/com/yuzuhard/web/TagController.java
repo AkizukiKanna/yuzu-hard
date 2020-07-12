@@ -43,4 +43,10 @@ public class TagController {
         tagService.update(bean);
         return Result.success(bean);
     }
+
+    //根据状态返回id和标签名
+    @GetMapping("/tags/findIdName/{status}")
+    public Object findIdNameUseStatus(@PathVariable("status") String status)throws Exception{
+        return tagService.findIdNameUseStatus(status);
+    }
 }

@@ -7,12 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Map;
+
 
 public interface ContentDAO extends JpaRepository<Content, Integer> {
-    @Query(value = "SELECT ct.id ,ct.title,ct.created ,ct.modified ,ct.firstImg ,ct.status ,ct.password ,ct.allowComment ,ct.pvNum   " +
-            "FROM  content ct " ,
+    @Query(value = "SELECT id ,title,created ,modified ,firstImg ,status ,password ,allowComment ,pvNum   " +
+            "FROM  content " ,
             nativeQuery = true)
-    Page<Object[]> findNotAbstractAndText(Pageable pageable);
+    Page<Map<String,Object>> findNotAbstractAndText(Pageable pageable);
 }
 /**
  * 两表连接查询
