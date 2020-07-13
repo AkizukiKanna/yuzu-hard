@@ -26,6 +26,25 @@ public class Content {
     String allowComment;
     int pvNum;
 
+
+    @Override
+    public String toString() {
+        return "Content{" +
+                "id=" + id +
+                ", category=" + category +
+                ", title='" + title + '\'' +
+                ", articleAbstract='" + articleAbstract + '\'' +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", text='" + text + '\'' +
+                ", firstImg='" + firstImg + '\'' +
+                ", status='" + status + '\'' +
+                ", password='" + password + '\'' +
+                ", allowComment='" + allowComment + '\'' +
+                ", pvNum=" + pvNum +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

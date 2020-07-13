@@ -1,7 +1,6 @@
 package com.yuzuhard.service;
 
 import com.yuzuhard.dao.ContentDAO;
-import com.yuzuhard.pojo.Category;
 import com.yuzuhard.pojo.Content;
 import com.yuzuhard.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,10 @@ public class ContentService {
     public static final String published = "published";
     public static final String deleted = "deleted";
 
+    //允许评论、禁止评论
+    public static final String allow = "allow";
+    public static final String forbid = "forbid";
+
     @Autowired
     ContentDAO contentDAO;
 
@@ -35,8 +38,16 @@ public class ContentService {
 
 
 
-    public void add(Content content){
+    //发布
+    public void addPulish(Content content){
         content.setText(HtmlUtils.htmlEscape(content.getText()));
+        content.setStatus(published);
+        contentDAO.save(content);
+    }
+    //草稿
+    public void addDraft(Content content){
+        content.setText(HtmlUtils.htmlEscape(content.getText()));
+        content.setStatus(draft);
         contentDAO.save(content);
     }
     public Content get(int id){

@@ -16,6 +16,17 @@ public class Category {
     int count;
     String status;
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", count=" + count +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }
