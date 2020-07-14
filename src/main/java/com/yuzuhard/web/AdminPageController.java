@@ -42,4 +42,8 @@ public class AdminPageController {
     public String newContent(){
         return "admin/newContent";
     }
+    @GetMapping("/admin_content_edit")
+    public String editContent(){
+        return "admin/editContent";
+    }
 }

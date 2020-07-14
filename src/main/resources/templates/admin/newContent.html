@@ -16,9 +16,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             categories: [],
             tags: [],
             //将要提交的
-            content: {id: 0, title: '', articleAbstract: '', text: '', firstImg: '', password: '', allowComment: 'allow'},
+            content: {
+                id: 0,
+                title: '',
+                articleAbstract: '',
+                text: '',
+                firstImg: '',
+                password: '',
+                allowComment: 'allow'
+            },
             category: {},
             tag: [],
+            flag:''
         };
 
         var vue = new Vue({
@@ -35,6 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         // theme : "dark",
                         // previewTheme : "dark",
                         // editorTheme : "pastel-on-dark",
+                        emoji: true,
                         saveHTMLToTextarea: true, // 保存 HTML 到 Textarea
                         imageUpload: true,
                         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
@@ -61,24 +71,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     })
                 },
                 publishContent: function () {
+                    this.flag='published';
                     var url = this.uri;
                     var text = $('.editormd-markdown-textarea').val();
                     this.content.text = text;
-
-                    // var formData = new FormData();
-                    // formData.append("content", this.content);
-                    // formData.append("category", this.category);
-                    // formData.append("tag", this.tag);
-
-                    axios.post(url, {content:this.content,category:this.category.id,tag:this.tag}).then(function (response) {
+                    axios.post(url, {
+                        content: this.content,
+                        category: this.category.id,
+                        tag: this.tag,
+                        flag:this.flag
+                    }).then(function (response) {
                         if (response.data.code == 0) {
                             alert("发布成功")
                             location.href = '/admin_content_list'
-                        }
+                        }else
+                            alert(response.data.message)
                     })
                 },
-                save: function () {
-
+                saveContent: function () {
+                    this.flag='draft';
+                    var url = this.uri;
+                    var text = $('.editormd-markdown-textarea').val();
+                    this.content.text = text;
+                    axios.post(url, {
+                        content: this.content,
+                        category: this.category.id,
+                        tag: this.tag,
+                        flag:this.flag
+                    }).then(function (response) {
+                        if (response.data.code == 0) {
+                            alert("保存成功")
+                            location.href = '/admin_content_list'
+                        }else
+                            alert(response.data.message)
+                    })
                 }
             }
         });
@@ -127,11 +153,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>标题</label>
-                            <input type="text" class="form-control" placeholder="Enter ..."  v-model.trim="content.title">
+                            <input type="text" class="form-control" placeholder="Enter ..."
+                                   v-model.trim="content.title">
                         </div>
                         <div class="form-group">
                             <label>摘要</label>
-                            <textarea class="form-control" rows="3" placeholder="Enter ..." v-model.trim="content.articleAbstract"></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..."
+                                      v-model.trim="content.articleAbstract"></textarea>
                         </div>
                     </div>
                     <!--右列-->
@@ -140,7 +168,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>密码</label>
-                                    <input type="text" class="form-control" placeholder="Enter ..." v-model.trim="content.password">
+                                    <input type="text" class="form-control" placeholder="Enter ..."
+                                           v-model.trim="content.password">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -155,7 +184,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <div class="form-group">
                             <label>展示图片链接</label>
-                            <input type="text" class="form-control" placeholder="Enter ..." v-model.trim="content.firstImg">
+                            <input type="text" class="form-control" placeholder="Enter ..."
+                                   v-model.trim="content.firstImg">
                         </div>
                     </div>
                 </div>
@@ -182,7 +212,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <option v-for="category in categories" :value="category">{{category.name}}</option>
                             </select>
                         </div>
-                        <button class="btn btn-warning" @Click="save">保存为草稿</button>
+                        <button class="btn btn-warning" @Click="saveContent">保存为草稿</button>
                         <button class="btn btn-success pull-right" @Click="publishContent">直接发布</button>
                     </div>
                 </div>
@@ -191,7 +221,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img :src="content.firstImg"/>
                 </div>
 
-                {{content}}
             </div>
 
 

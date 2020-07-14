@@ -16,6 +16,17 @@ public class Tag {
     int count;
     String status;
 
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", count=" + count +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

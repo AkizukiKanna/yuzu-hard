@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
 @Service
@@ -39,16 +40,16 @@ public class ContentService {
 
 
     //发布
-    public void addPulish(Content content){
+    public int addPulish(Content content){
         content.setText(HtmlUtils.htmlEscape(content.getText()));
         content.setStatus(published);
-        contentDAO.save(content);
+        return contentDAO.save(content).getId();
     }
     //草稿
-    public void addDraft(Content content){
+    public int addDraft(Content content){
         content.setText(HtmlUtils.htmlEscape(content.getText()));
         content.setStatus(draft);
-        contentDAO.save(content);
+        return contentDAO.save(content).getId();
     }
     public Content get(int id){
         Content content = contentDAO.findById(id).get();
