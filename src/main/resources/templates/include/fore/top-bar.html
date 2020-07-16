@@ -1,8 +1,9 @@
 <nav class="nav" th:fragment="html">
+
     <!-- 桌面端导航条 -->
     <div class="top-wrapper hidden-xs">
         <div class="top-bar scroll-top">
-            <a class="logo" href="#nowhere"><img src="" alt="logo"></a>
+            <a class="logo" href="#nowhere"><img data-src="" alt="logo"></a>
             <ul class="right-wrapper ">
                 <li><a href="#nowhere">test1</a></li>
                 <li><a href="#nowhere">test2</a></li>
@@ -27,16 +28,19 @@
             </ul>
             <!-- logo -->
             <h1 class="logo">
-                <a href="#nowhere">YUZU-HARD</a>
+                <a href="#nowhere">Logo</a>
             </h1>
         </div>
     </div>
 
     <!-- 移动端侧边栏 -->
+
     <div class="m-side-wrapper visible-xs">
+
+
         <ul class="m-side-bar">
             <li class="first-li">
-                <div><img width="90px" height="90px" src="../img/headSculpture.jpg" alt="头像"></div>
+                <div><img width="90px" height="90px" data-src="../img/headSculpture.jpg" alt="头像"></div>
             </li>
             <li><a href="http://www.baidu.com">test1</a></li>
             <li><a href="#nowhere">test2</a></li>
@@ -51,6 +55,9 @@
 
 
         </ul>
+
+
+
         <!-- 手机端侧边栏右边空白区域 -->
         <div class="_menu-right-wrapper m-display-none">
             <div class="_menu-right"></div>
@@ -58,5 +65,8 @@
 
 
     </div>
+
+
+
 
 </nav>

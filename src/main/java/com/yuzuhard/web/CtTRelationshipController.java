@@ -11,6 +11,7 @@ public class CtTRelationshipController {
     @Autowired
     Ct_t_relationshipService ct_t_relationshipService;
 
+    //根据contentId选取选中的tagsID
     @GetMapping("/contents/{id}/tags")
     public int[] getByContent(@PathVariable("id") int id){
         return ct_t_relationshipService.getByContentId(id);

@@ -2,24 +2,95 @@
 <html xmlns:th="http://www.thymeleaf.org">
  <head th:include="include/fore/header::html" ></head>
 
- <style>
-     #box {
-         position: relative;
-         height: 2000px;
-         background-color: #bfa;
-         z-index: 1;
+ <script>
+
+     // 页面所有资源加载完执行
+     window.onload = function () {
+         console.log("2")
+         // $("body").addClass("init");
+
      }
- </style>
 
+
+
+
+     $(function () {
+         // 懒加载
+         Vue.use(VueLazyload, {
+             preLoad: 1.3,
+             error: '',
+             loading: '',
+             attempt: 1
+         })
+
+         var data4Vue = {
+             user:[],
+             beans: [],
+             local_img:'img/28.png'
+         };
+
+         //ViewModel
+         var vue = new Vue({
+             el: '#workArea',
+             data: data4Vue,
+             mounted: function () { //mounted　表示这个 Vue 对象加载成功了
+                 this.getUser();
+                 this.list();
+                 this.$nextTick(function () {
+                     // 添加事件监听
+                     base();//事件绑定
+                     AOS.init({
+                         easing: 'ease-out-back',
+                         duration: 1000
+                     });
+                 })
+             },
+             methods: {
+                 getUser: function(){
+                     var url =  'http://127.0.0.1:8080/user';
+                     axios.get(url).then(function(response){
+                         vue.user = response.data;
+                     })
+                 },
+                 list: function () {
+                     var url = "http://127.0.0.1:8080/get";
+                     axios.get(url).then(function (response) {
+                         vue.beans = response.data;
+                         console.log(vue.beans.key);
+
+                         vue.$nextTick(function(){
+                             console.log(vue.beans.key);
+                         })
+                     });
+                 },
+             },
+         });
+
+
+
+
+
+     })
+
+ </script>
 <body>
-<div id="workingArea">
+<div id="workArea" v-lazy-container="{ selector: 'img' }">
     <div th:replace="include/fore/top-bar::html" ></div>
-<!--    <div th:replace="include/fore/search::html" ></div>-->
     <div th:replace="include/fore/home/homePage::html" ></div>
-<!--    <div th:replace="include/fore/footer::html" ></div> -->
+    <div th:replace="include/fore/footer::html" ></div>
 </div>
+<!-- aos动画开始 -->
+<script src="static/aos/js/highlight.min.js"></script>
+<script src="static/aos/dist/aos.js"></script>
+<script>
+    AOS.init({
+        easing: 'ease-out-back',
+        duration: 1000
+    });
+</script>
+<!-- aos动画结束 -->
 
-<div id="box"></div>
 
 </body>
+
 </html>

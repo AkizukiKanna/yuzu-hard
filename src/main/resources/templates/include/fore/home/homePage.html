@@ -1,35 +1,187 @@
 <!-- 首页顶部大图片容器 -->
-<div class="head-content-container" th:fragment="html">
-    <!-- 头像，个签，联系方式 -->
-    <div class="content-wrapper hidden-xs">
-        <div class="content">
-            <!-- 头像 -->
-            <div class="head-img">
-                <a href="http://www.baidu.com">
-                    <img src="../img/head.png" alt="头像">
-                </a>
-            </div>
-            <!-- 个签 -->
-            <div class="head-info">
-                <p>何を见てるの?</p>
-            </div>
-            <!-- 联系方式 -->
-            <div class="link-wrapper">
-                <ul class="link">
-                    <li><a href="#nowhere"><img src="../img/qq.png" alt=""></a></li>
-                    <li><a href="#nowhere"><img src="../img/wechat.png" alt=""></a></li>
-                    <li><a href="#nowhere"><img src="../img/email.svg" alt=""></a></li>
-                </ul>
+<div  th:fragment="html">
+    <!-- 首页顶部大图片容器 -->
+    <div class="head-content-container">
+
+        <!-- 头像，个签，联系方式 -->
+        <div class="content-wrapper hidden-xs">
+            <div class="content">
+                <!-- 头像 -->
+                <div class="head-img">
+                    <a href="http://www.baidu.com">
+                        <img data-src="img/head.png" alt="头像">
+                    </a>
+                </div>
+                <!-- 个签 -->
+                <div class="head-info">
+                    <p>{{user.signature}}</p>
+                    <!-- <p>rurudo是神</p> -->
+                </div>
+                <!-- 联系方式 -->
+                <div class="link-wrapper">
+                    <ul class="link">
+                        <li><a href="#nowhere"><img data-src="img/qq.png" alt=""></a></li>
+                        <li><a href="#nowhere"><img data-src="img/wechat.png" alt=""></a></li>
+                        <li><a href="#nowhere"><img data-src="img/email.svg" alt=""></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+        <!-- 背景图片 -->
+        <!-- 移动 -->
+        <div class="m-video-container visible-xs">
+            <div class="m-bg-img"></div>
+        </div>
+        <!-- pc -->
+        <div class="video-container hidden-xs">
+            <div class="bg-img" id="div1" :style="beans.key"></div>
+        </div>
+
+
+
+        <!-- 移动端下面的圆弧 -->
+        <!-- <div class="circle visible-xs">
+
+    </div> -->
     </div>
-    <!-- 背景图片 -->
-    <div class="video-container">
 
-    </div>
+    <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
+    <!-- 首页中间文章 -->
+    <div class="article-wrapper">
+        <div id="content" class="home-content">
 
-    <div class="circle visible-xs">
+            <h3>
+                <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;&nbsp;最近更新
+            </h3>
 
+            <!-- <cpn :src='beans.key'></cpn> -->
+            <article aos="fade-up" aos-once="true" >
+                <!-- 图片 -->
+                <div class="post-thumb">
+                    <a href="#nowhere">
+                        <img :data-src="local_img" alt="sss" class="lazyload">
+                    </a>
+                </div>
+                <!-- 文章 -->
+                <div class="post-content-wrapper">
+                    <div class="post-content">
+                        <!-- 时间 -->
+                        <div class="post-date">
+                            发布于 8 天前
+                        </div>
+                        <!-- 标题 -->
+                        <a href="#nowhere">
+                            <h3>文章标题</h3>
+                        </a>
+                        <!-- 标签 -->
+                        <div class="post-meta">
+                            <span>85 热度</span>
+                            <span><a href="#nowhere">标签1</a></span>
+                            <span><a href="#nowhere">标签2</a></span>
+                        </div>
+                        <!-- 内容 -->
+                        <div class="content">
+                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article aos="fade-up" aos-once="true">
+                <!-- 图片 -->
+                <div class="post-thumb">
+                    <a href="#nowhere">
+                        <img :data-src="local_img" alt="" class="lazyload">
+                    </a>
+                </div>
+                <!-- 文章 -->
+                <div class="post-content-wrapper">
+                    <div class="post-content">
+                        <!-- 时间 -->
+                        <div class="post-date">
+                            发布于 8 天前
+                        </div>
+                        <!-- 标题 -->
+                        <a href="#nowhere">
+                            <h3>文章标题</h3>
+                        </a>
+                        <!-- 标签 -->
+                        <div class="post-meta">
+                            <span>85 热度</span>
+                            <span><a href="#nowhere">标签1</a></span>
+                            <span><a href="#nowhere">标签2</a></span>
+                        </div>
+                        <!-- 内容 -->
+                        <div class="content">
+                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article aos="fade-up" aos-once="true">
+                <!-- 图片 -->
+                <div class="post-thumb">
+                    <a href="#nowhere">
+                        <img :data-src="local_img" alt="" class="lazyload">
+                    </a>
+                </div>
+                <!-- 文章 -->
+                <div class="post-content-wrapper">
+                    <div class="post-content">
+                        <!-- 时间 -->
+                        <div class="post-date">
+                            发布于 8 天前
+                        </div>
+                        <!-- 标题 -->
+                        <a href="#nowhere">
+                            <h3>文章标题</h3>
+                        </a>
+                        <!-- 标签 -->
+                        <div class="post-meta">
+                            <span>85 热度</span>
+                            <span><a href="#nowhere">标签1</a></span>
+                            <span><a href="#nowhere">标签2</a></span>
+                        </div>
+                        <!-- 内容 -->
+                        <div class="content">
+                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article aos="fade-up" aos-once="true">
+                <!-- 图片 -->
+                <div class="post-thumb">
+                    <a href="#nowhere">
+                        <img :data-src="local_img" alt="" class="lazyload">
+                    </a>
+                </div>
+                <!-- 文章 -->
+                <div class="post-content-wrapper">
+                    <div class="post-content">
+                        <!-- 时间 -->
+                        <div class="post-date">
+                            发布于 8 天前
+                        </div>
+                        <!-- 标题 -->
+                        <a href="#nowhere">
+                            <h3>文章标题</h3>
+                        </a>
+                        <!-- 标签 -->
+                        <div class="post-meta">
+                            <span>85 热度</span>
+                            <span><a href="#nowhere">标签1</a></span>
+                            <span><a href="#nowhere">标签2</a></span>
+                        </div>
+                        <!-- 内容 -->
+                        <div class="content">
+                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
     </div>
 </div>

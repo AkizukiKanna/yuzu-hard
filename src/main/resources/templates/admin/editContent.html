@@ -20,6 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             content: {},
             category: {id: 0, name: ''},
             tag: [],
+            flag:''
         };
 
         var vue = new Vue({
@@ -33,11 +34,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 this.getTagsByContent();
             },
             methods: {
+                //获取已选的tags
                 getTagsByContent: function () {
                     var url = this.uri+'/'+id+'/tags';
                     axios.get(url).then(function (response) {
                         vue.tag=response.data;
-                        console.log(vue.tag);
                     })
                 },
                 getContent: function () {
@@ -81,13 +82,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     })
                 },
                 publishContent: function () {
+                    this.flag='published';
                     var url = this.uri;
                     var text = $('.editormd-markdown-textarea').val();
                     this.content.text = text;
                     axios.put(url, {
                         content: this.content,
                         category: this.category.id,
-                        tag: this.tag
+                        tag: this.tag,
+                        flag:this.flag
                     }).then(function (response) {
                         if (response.data.code == 0) {
                             alert("发布成功")
@@ -96,13 +99,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     })
                 },
                 saveContent: function () {
+                    this.flag='draft';
                     var url = this.uri;
                     var text = $('.editormd-markdown-textarea').val();
                     this.content.text = text;
                     axios.put(url, {
                         content: this.content,
                         category: this.category.id,
-                        tag: this.tag
+                        tag: this.tag,
+                        flag:this.flag
                     }).then(function (response) {
                         if (response.data.code == 0) {
                             alert("保存成功")
@@ -132,7 +137,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">博客文章 > 编辑博客</h1>
+                            <h1 class="m-0 text-dark"><a href="/admin_content_list">博客文章</a> > 编辑博客</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">

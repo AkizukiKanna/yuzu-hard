@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
+import java.util.Date;
+
 @Service
 public class ContentService {
     //草稿、已发布、已删除
@@ -36,16 +38,19 @@ public class ContentService {
         return new Page4Navigator<>(pageFromJPA,navigatePages);
     }
 
+    //根据id返回创建日期
+    public Date getCreated(int id){
+        return contentDAO.findCreatedById(id);
+    }
 
 
-
-    //发布
+    //新增发布
     public int addPulish(Content content){
         content.setText(HtmlUtils.htmlEscape(content.getText()));
         content.setStatus(published);
         return contentDAO.save(content).getId();
     }
-    //草稿
+    //新增草稿
     public int addDraft(Content content){
         content.setText(HtmlUtils.htmlEscape(content.getText()));
         content.setStatus(draft);
@@ -55,5 +60,28 @@ public class ContentService {
         Content content = contentDAO.findById(id).get();
         content.setText(HtmlUtils.htmlUnescape(content.getText()));
         return content;
+    }
+
+    //更新发布
+    public int updatePulish(Content content){
+        content.setText(HtmlUtils.htmlEscape(content.getText()));
+        content.setStatus(published);
+        return contentDAO.save(content).getId();
+    }
+    //更新草稿
+    public int updateDraft(Content content){
+        content.setText(HtmlUtils.htmlEscape(content.getText()));
+        content.setStatus(draft);
+        return contentDAO.save(content).getId();
+    }
+
+    //更新状态
+    public void updateStatus(int id , String status){
+        contentDAO.updateStatus(id,status);
+    }
+
+    @Transactional
+    public void delete(int id){
+        updateStatus(id,deleted);
     }
 }

@@ -48,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         saveHTMLToTextarea: true, // 保存 HTML 到 Textarea
                         imageUpload: true,
                         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                        imageUploadURL: "/file/uploadImage",
+                        imageUploadURL: "/file/uploadImage",//文件提交请求路径
                         htmlDecode: "style,script,iframe,sub,sup|on*",
                         path: "editormd/lib/"
                     });
@@ -128,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">博客文章 > 新的博客</h1>
+                            <h1 class="m-0 text-dark"><a href="/admin_content_list">博客文章</a> > 新的博客</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">

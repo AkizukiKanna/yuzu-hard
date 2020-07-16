@@ -15,11 +15,6 @@ public class Ct_t_relationshipService {
     @Autowired
     Ct_t_relationshipDAO ct_t_relationshipDAO;
 
-//    public void add(Ct_t_relationship bean){
-//        bean.setStatus(saved);
-//        ct_t_relationshipDAO.save(bean);
-//    }
-
     @Transactional
     public void add(int ctid,int tid){
         ct_t_relationshipDAO.insert(ctid,tid);
@@ -27,5 +22,15 @@ public class Ct_t_relationshipService {
 
     public int[] getByContentId(int ctid){
         return ct_t_relationshipDAO.findByContentId(ctid,"saved");
+    }
+
+    @Transactional
+    public void deleteByCtid(int id){
+        ct_t_relationshipDAO.deleteByCtid(id);
+    }
+
+    @Transactional
+    public void updateStatus(int ctid,String status){
+        ct_t_relationshipDAO.updateStatus(ctid,status);
     }
 }

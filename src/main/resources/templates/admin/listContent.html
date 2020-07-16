@@ -54,11 +54,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         vue.list(0);
                     })
                 },
-                draft :function(){
-                    alert("此功能还没做")
+                draft: function (id) {
+                    var url = this.uri + '/' + id + '/' + 'draft';
+                    axios.put(url, this.bean).then(function (response) {
+                        if (response.data.code == 0) {
+                            vue.list(vue.pagination.number);
+                        } else {
+                            alert(response.data.message)
+                        }
+                    })
                 },
-                publish: function(){
-                    alert("此功能还没做")
+                publish: function (id) {
+                    var url = this.uri + '/' + id + '/' + 'published';
+                    axios.put(url, this.bean).then(function (response) {
+                        if (response.data.code == 0) {
+                            vue.list(vue.pagination.number);
+                        } else {
+                            alert(response.data.message)
+                        }
+                    })
                 },
                 undo: function () {
                     alert("此功能还没做")
@@ -194,7 +208,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </i>
                     发布
                   </span>
-                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='published'" @Click="draft(bean.id)">
+                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='published'"
+                                          @Click="draft(bean.id)">
                     <i class="fas fa-reply">
                     </i>
                     撤下
@@ -213,7 +228,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </i>
                     删除
                   </span>
-                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='deleted'" @Click="undo(bean.id)">
+                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='deleted'"
+                                          @Click="undo(bean.id)">
                     <i class="fas fa-undo">
                     </i>
                     恢复
@@ -231,34 +247,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <!-- /.card -->
 
-                <!-- general form elements -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">新增分类</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label>分类名称</label>
-                                <input type="text" class="form-control" id="categoryName"
-                                       placeholder="请输入新的分类名" v-model="bean.name" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label>分类描述</label>
-                                <input type="text" class="form-control" id="categoryDescription"
-                                       placeholder="请输入分类描述" v-model="bean.description" autocomplete="off">
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
 
-                        <div class="card-footer">
-                            <button class="btn btn-primary" @Click="add">增加</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.card -->
             </div>
             <!-- /.content -->
         </div>
