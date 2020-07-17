@@ -14,4 +14,8 @@ public class ForePageController {
     public String home(){
         return "fore/home";
     }
+    @GetMapping("/detail")
+    public String detail(){
+        return "fore/detail";
+    }
 }

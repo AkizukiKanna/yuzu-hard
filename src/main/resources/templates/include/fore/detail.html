@@ -1,0 +1,56 @@
+<!-- 背景容器 -->
+<div class="bg" th:fragment="html">
+
+    <div id="detail-content">
+
+
+        <!-- 首页中间文章 -->
+        <div class="article-wrapper">
+            <div class="content-left">
+                <!-- 文章信息栏 -->
+                <div class="info">
+                    <div>
+                        <a href="/">
+                            <img :src="user.profilePicture">
+                        </a>
+                        <h3>{{bean.title}}</h3>
+                    </div>
+                    <p>
+                        时间：{{bean.modified | formatDateFilter}}<span>|</span>
+                        分类：{{category.name}}
+                    </p>
+                </div>
+                <!-- editor.md -->
+                <div id="test-editormd-view">
+                    <textarea id="markdownView" style="display:none;">{{bean.text}}</textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 首页右边导航 -->
+        <div class="menu-wrapper">
+            <ul class="menu-right">
+                <li>
+                    <ul class="category">
+                        <h3>分类</h3>
+                        <li v-for="category in categories"><a href="#nowhere">{{category.name}}</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="tag">
+                        <h3>标签</h3>
+                        <li v-for="tag in tags"><a href="#nowhere">{{tag.name}}</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+    <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+</div>

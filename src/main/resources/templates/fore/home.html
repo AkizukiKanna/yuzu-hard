@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
  <head th:include="include/fore/header::html" ></head>
-
+ <link rel="stylesheet" href="static/css/home/home.css">
  <script>
-
-     // 页面所有资源加载完执行
-     window.onload = function () {
-         console.log("2")
-         // $("body").addClass("init");
-
-     }
-
-
-
 
      $(function () {
          // 懒加载
@@ -26,7 +16,6 @@
          var data4Vue = {
              user:[],
              beans: [],
-             local_img:'img/28.png'
          };
 
          //ViewModel
@@ -47,19 +36,23 @@
              },
              methods: {
                  getUser: function(){
-                     var url =  'http://127.0.0.1:8080/user';
+                     var url =  'user';
                      axios.get(url).then(function(response){
                          vue.user = response.data;
                      })
                  },
                  list: function () {
-                     var url = "http://127.0.0.1:8080/get";
+                     var url = "fore/contents";
                      axios.get(url).then(function (response) {
                          vue.beans = response.data;
-                         console.log(vue.beans.key);
+                         console.log(vue.beans);
 
                          vue.$nextTick(function(){
-                             console.log(vue.beans.key);
+                             AOS.init({
+                                 easing: 'ease-out-back',
+                                 duration: 1000
+                             });
+
                          })
                      });
                  },
@@ -74,7 +67,7 @@
 
  </script>
 <body>
-<div id="workArea" v-lazy-container="{ selector: 'img' }">
+<div id="workArea">
     <div th:replace="include/fore/top-bar::html" ></div>
     <div th:replace="include/fore/home/homePage::html" ></div>
     <div th:replace="include/fore/footer::html" ></div>

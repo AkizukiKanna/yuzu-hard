@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ContentService {
@@ -84,4 +86,10 @@ public class ContentService {
     public void delete(int id){
         updateStatus(id,deleted);
     }
+
+    //根据status查询
+    public List<Map<String, Object>> getByStatus(String status){
+        return contentDAO.findByStatus(status);
+    }
+
 }

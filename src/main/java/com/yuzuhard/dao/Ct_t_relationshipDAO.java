@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Map;
+
 public interface Ct_t_relationshipDAO extends JpaRepository<Ct_t_relationship,Integer> {
     //根据文章id查询对应选中的tagid
     @Query(value = "select tid from ct_t_relationship where ctid=:ctid and status=:status",nativeQuery = true)
@@ -25,4 +28,9 @@ public interface Ct_t_relationshipDAO extends JpaRepository<Ct_t_relationship,In
     @Modifying
     @Query(value = "update ct_t_relationship set status=:status where ctid = :ctid",nativeQuery = true)
     int updateStatus(int ctid,String status);
+
+    //根据ctid查对应tid和tname
+    @Query(value = "select t.id ,t.name  from tag t ,ct_t_relationship r " +
+            "where r.tid = t.id and r.ctid=:ctid",nativeQuery = true)
+    List<Map<String,Object>> findTidTnameByCTid(int ctid);
 }

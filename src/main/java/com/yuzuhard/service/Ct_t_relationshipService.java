@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class Ct_t_relationshipService {
     public static final String deleted = "deleted";
@@ -32,5 +35,10 @@ public class Ct_t_relationshipService {
     @Transactional
     public void updateStatus(int ctid,String status){
         ct_t_relationshipDAO.updateStatus(ctid,status);
+    }
+
+    //根据ctid查对应tid和tname
+    public List<Map<String, Object>> findTidTnameByCTid(int ctid){
+        return ct_t_relationshipDAO.findTidTnameByCTid(ctid);
     }
 }

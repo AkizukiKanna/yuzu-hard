@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,6 +26,18 @@ public interface ContentDAO extends JpaRepository<Content, Integer> {
     @Modifying
     @Query(value = "update content set status=:status where id = :id",nativeQuery = true)
     int updateStatus(int id,String status);
+
+    //根据status查询
+    @Query(value = "select c.id ,c.title,c.created ,c.modified ,c.firstImg ,c.articleAbstract  ,c.pvNum ,cg.name " +
+            "from  content c, category cg " +
+            " where c.status=:status and c.cgid=cg.id" +
+            " order by id desc " +
+            "limit 0,10",nativeQuery = true)
+    List<Map<String,Object>> findByStatus(String status);
+
+
+
+
 }
 /**
  * 两表连接查询

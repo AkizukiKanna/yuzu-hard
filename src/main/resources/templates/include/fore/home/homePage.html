@@ -1,5 +1,5 @@
 <!-- 首页顶部大图片容器 -->
-<div  th:fragment="html">
+<div  th:fragment="html" v-lazy-container="{ selector: 'img' }">
     <!-- 首页顶部大图片容器 -->
     <div class="head-content-container">
 
@@ -8,8 +8,8 @@
             <div class="content">
                 <!-- 头像 -->
                 <div class="head-img">
-                    <a href="http://www.baidu.com">
-                        <img data-src="img/head.png" alt="头像">
+                    <a href="https://www.baidu.com/s?wd=%E6%9C%9D%E6%AD%A6%E8%8A%B3%E4%B9%83%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80&rsv_spt=1&rsv_iqid=0x88e85fb900119ebb&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_dl=tb&rsv_sug3=25&rsv_sug1=16&rsv_sug7=101&rsv_sug2=0&rsv_btype=i&inputT=7942&rsv_sug4=7942">
+                        <img :data-src="user.profilePicture" alt="头像">
                     </a>
                 </div>
                 <!-- 个签 -->
@@ -56,12 +56,11 @@
                 <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;&nbsp;最近更新
             </h3>
 
-            <!-- <cpn :src='beans.key'></cpn> -->
-            <article aos="fade-up" aos-once="true" >
+            <article aos="fade-up" aos-once="true" v-for="bean in beans">
                 <!-- 图片 -->
                 <div class="post-thumb">
-                    <a href="#nowhere">
-                        <img :data-src="local_img" alt="sss" class="lazyload">
+                    <a :href='"/detail?id="+bean.id' >
+                        <img :data-src="bean.firstImg"  class="lazyload">
                     </a>
                 </div>
                 <!-- 文章 -->
@@ -69,115 +68,20 @@
                     <div class="post-content">
                         <!-- 时间 -->
                         <div class="post-date">
-                            发布于 8 天前
+                            发布于 {{bean.modified | formatDateFilter}}
                         </div>
                         <!-- 标题 -->
-                        <a href="#nowhere">
-                            <h3>文章标题</h3>
+                        <a :href='"/detail?id="+bean.id' >
+                            <h3>{{bean.title}}</h3>
                         </a>
                         <!-- 标签 -->
                         <div class="post-meta">
-                            <span>85 热度</span>
-                            <span><a href="#nowhere">标签1</a></span>
-                            <span><a href="#nowhere">标签2</a></span>
+                            <span>-- 热度</span>
+                            <span v-for="tag in bean.tag"><a href="#nowhere">{{tag.name}}</a></span>
                         </div>
                         <!-- 内容 -->
                         <div class="content">
-                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例</p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article aos="fade-up" aos-once="true">
-                <!-- 图片 -->
-                <div class="post-thumb">
-                    <a href="#nowhere">
-                        <img :data-src="local_img" alt="" class="lazyload">
-                    </a>
-                </div>
-                <!-- 文章 -->
-                <div class="post-content-wrapper">
-                    <div class="post-content">
-                        <!-- 时间 -->
-                        <div class="post-date">
-                            发布于 8 天前
-                        </div>
-                        <!-- 标题 -->
-                        <a href="#nowhere">
-                            <h3>文章标题</h3>
-                        </a>
-                        <!-- 标签 -->
-                        <div class="post-meta">
-                            <span>85 热度</span>
-                            <span><a href="#nowhere">标签1</a></span>
-                            <span><a href="#nowhere">标签2</a></span>
-                        </div>
-                        <!-- 内容 -->
-                        <div class="content">
-                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article aos="fade-up" aos-once="true">
-                <!-- 图片 -->
-                <div class="post-thumb">
-                    <a href="#nowhere">
-                        <img :data-src="local_img" alt="" class="lazyload">
-                    </a>
-                </div>
-                <!-- 文章 -->
-                <div class="post-content-wrapper">
-                    <div class="post-content">
-                        <!-- 时间 -->
-                        <div class="post-date">
-                            发布于 8 天前
-                        </div>
-                        <!-- 标题 -->
-                        <a href="#nowhere">
-                            <h3>文章标题</h3>
-                        </a>
-                        <!-- 标签 -->
-                        <div class="post-meta">
-                            <span>85 热度</span>
-                            <span><a href="#nowhere">标签1</a></span>
-                            <span><a href="#nowhere">标签2</a></span>
-                        </div>
-                        <!-- 内容 -->
-                        <div class="content">
-                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例</p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article aos="fade-up" aos-once="true">
-                <!-- 图片 -->
-                <div class="post-thumb">
-                    <a href="#nowhere">
-                        <img :data-src="local_img" alt="" class="lazyload">
-                    </a>
-                </div>
-                <!-- 文章 -->
-                <div class="post-content-wrapper">
-                    <div class="post-content">
-                        <!-- 时间 -->
-                        <div class="post-date">
-                            发布于 8 天前
-                        </div>
-                        <!-- 标题 -->
-                        <a href="#nowhere">
-                            <h3>文章标题</h3>
-                        </a>
-                        <!-- 标签 -->
-                        <div class="post-meta">
-                            <span>85 热度</span>
-                            <span><a href="#nowhere">标签1</a></span>
-                            <span><a href="#nowhere">标签2</a></span>
-                        </div>
-                        <!-- 内容 -->
-                        <div class="content">
-                            <p>测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例测试用例</p>
+                            <p>{{bean.articleAbstract}}</p>
                         </div>
                     </div>
                 </div>

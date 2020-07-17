@@ -34,6 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     var formData = new FormData();
                     formData.append("id", this.bean.id);
                     formData.append("signature", this.bean.signature);
+                    formData.append("profilePicture",this.bean.profilePicture);
                     axios.put(url, formData).then(function (response) {
                         location.reload();
                     });
@@ -90,6 +91,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <input type="text" class="form-control" id="exampleInputEmail1"
                                            placeholder="写下一句话展示给大家吧"
                                            v-model.trim='bean.signature' autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>头像</label>
+                                    <input type="text" class="form-control"
+                                           placeholder="设置头像链接"
+                                           v-model.trim='bean.profilePicture' autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputFile">个人头像</label>
