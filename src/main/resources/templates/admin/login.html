@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="include/admin/adminHeader::html"></head>
+
+<script>
+  $(function () {
+    var data4Vue = {
+      uri: 'user',
+      user: {name:'',password:''},
+    };
+
+    var vue = new Vue({
+      el: '#workArea',
+      data: data4Vue,
+
+      methods: {
+        login: function () {
+          if (!checkEmpty(this.user.name, "username"))
+            return;
+          if (!checkEmpty(this.user.password, "password"))
+            return;
+          var url = this.uri;
+          axios.post(url,this.user).then(function (response) {
+            if (response.data.code==1){
+              alert(response.data.message)
+              location.href='https://baike.baidu.com/item/%E6%9C%9D%E6%AD%A6%E8%8A%B3%E4%B9%83/20415435?fr=aladdin'
+            }if (response.data.code==0){
+              location.href='/admin_userInfo'
+            }
+          })
+        },
+      }
+    });
+  })
+</script>
+
+
+<body class="hold-transition login-page">
+<div class="login-box"  id="workArea">
+  <div class="login-logo">
+    <a href="/"><b>Yuzu-Hard</b></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">想要一探究竟吗？</p>
+
+      <div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" v-model.trim="user.name" placeholder="Username">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" v-model.trim="user.password" placeholder="Password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Remember Me
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button  class="btn btn-primary btn-block" @click="login">登录</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+
+
+      <!-- /.social-auth-links -->
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+
+</body>
+</html>

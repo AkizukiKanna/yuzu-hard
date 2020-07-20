@@ -6,44 +6,57 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminPageController {
     @GetMapping("/testContent")
-    public String test(){
+    public String test() {
         return "admin/testContent";
     }
 
     @GetMapping("/admin_yuzu")
-    public String admin(){
+    public String admin() {
         return "admin/userInfo";
     }
+
     @GetMapping("/admin_userInfo")
-    public String userInfo(){
+    public String userInfo() {
         return "admin/userInfo";
     }
+
     @GetMapping("/admin_category_list")
-    public String listCategory(){
+    public String listCategory() {
         return "admin/listCategory";
     }
+
     @GetMapping("/admin_category_edit")
-    public String editCategory(){
+    public String editCategory() {
         return "admin/editCategory";
     }
+
     @GetMapping("/admin_tag_list")
-    public String listTag(){
+    public String listTag() {
         return "admin/listTag";
     }
+
     @GetMapping("/admin_tag_edit")
-    public String editTag(){
+    public String editTag() {
         return "admin/editTag";
     }
+
     @GetMapping("/admin_content_list")
-    public String listContent(){
+    public String listContent() {
         return "admin/listContent";
     }
+
     @GetMapping("/admin_content_new")
-    public String newContent(){
+    public String newContent() {
         return "admin/newContent";
     }
+
     @GetMapping("/admin_content_edit")
-    public String editContent(){
+    public String editContent() {
         return "admin/editContent";
+    }
+
+    @GetMapping("/yuzu_login")
+    public String login() {
+        return "admin/login";
     }
 }

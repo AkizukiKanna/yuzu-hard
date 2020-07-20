@@ -11,17 +11,21 @@ public class UserService {
     UserDAO userDAO;
 
 
-    public User get(int id){
+    public User get(int id) {
         return userDAO.findById(id).get();
     }
 
     //移除name和pwd属性
-    public void removeNameAndPwd(User user){
+    public void removeNameAndPwd(User user) {
         user.setName(null);
         user.setPassword(null);
     }
 
-    public void update(User user){
+    public void update(User user) {
         userDAO.save(user);
+    }
+
+    public User get(String name, String password) {
+        return userDAO.getByNameAndPassword(name, password);
     }
 }

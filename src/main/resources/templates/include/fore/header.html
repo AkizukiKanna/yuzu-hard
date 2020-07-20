@@ -37,8 +37,11 @@
     <!--左上角的小图标-->
     <link rel="shortcut icon" href="http://cafe-stella.cdn.yuzu-hard.xyz/randomPics/2020-07-17/3181de726609438489a2e6cbecdfbc34-icon01.png">
 
-    <title>芳乃老公的博客</title>
 
+    <!--l2d-->
+    <link rel="stylesheet" type="text/css" href="assets/waifu.css?v=1.4.2"/>
+    <!-- 实现拖动效果，需引入 JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
 
     <script>
         //日期格式化
@@ -78,4 +81,18 @@
             }
         }
     </script>
+
+    <!--修改模态框-->
+    <style type="text/css">
+        .modal-dialog{
+            top:200px;
+        }
+        .modal-content{
+            background-color: rgba(0,0,0,0);
+        }
+
+        /*去掉屏幕抖动*/
+        body { padding-right: 0px !important; }
+        .modal-open { overflow-y: auto !important; padding-right: 0 !important;}
+    </style>
 </template>

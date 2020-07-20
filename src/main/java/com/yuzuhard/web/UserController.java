@@ -4,11 +4,10 @@ import com.yuzuhard.pojo.User;
 import com.yuzuhard.service.UserService;
 import com.yuzuhard.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
+
+import javax.servlet.http.HttpSession;
 
 
 @RestController
@@ -37,5 +36,20 @@ public class UserController {
         user.setSignature(HtmlUtils.htmlEscape(signature));
         userService.update(user);
         return Result.success();
+    }
+
+    @PostMapping("/user")
+    public Object login(@RequestBody User userParam, HttpSession session) {
+        String name =  userParam.getName();
+        String password = userParam.getPassword();
+        User user =userService.get(name,password);
+        if(null==user){
+            String message ="有这时间不如去看看我老婆";
+            return Result.fail(message);
+        }
+        else{
+            session.setAttribute("user", user);
+            return Result.success();
+        }
     }
 }

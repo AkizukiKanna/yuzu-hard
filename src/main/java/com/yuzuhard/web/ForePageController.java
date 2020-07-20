@@ -8,7 +8,7 @@ public class ForePageController {
 
     @GetMapping(value="/")
     public String index(){
-        return "redirect:home";
+        return "fore/home";
     }
     @GetMapping("/home")
     public String home(){
