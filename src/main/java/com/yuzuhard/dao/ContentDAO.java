@@ -1,6 +1,8 @@
 package com.yuzuhard.dao;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.yuzuhard.dto.ContentDto;
 import com.yuzuhard.pojo.Content;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,12 +14,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-
 public interface ContentDAO extends JpaRepository<Content, Integer> {
     @Query(value = "SELECT id ,title,created ,modified ,firstImg ,status ,password ,allowComment ,pvNum   " +
             "FROM  content " ,
             nativeQuery = true)
     Page<Map<String,Object>> findNotAbstractAndText(Pageable pageable);
+//    Page<List<ContentDto>> findNotAbstractAndText(Pageable pageable);
 
     @Query(value = "select created from content where id = :id",nativeQuery = true)
     Date findCreatedById(int id);

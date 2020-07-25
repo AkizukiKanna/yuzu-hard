@@ -6,7 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 
 @SpringBootApplication
-@EnableCaching
+//@EnableCaching
 //@EnableElasticsearchRepositories(basePackages = "com.how2java.tmall.es")
 //@EnableJpaRepositories(basePackages = {"com.how2java.tmall.dao", "com.how2java.tmall.pojo"})
 public class Application {

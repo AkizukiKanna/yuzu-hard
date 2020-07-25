@@ -26,6 +26,8 @@ public class Content {
     String allowComment;
     int pvNum;
 
+    public Content() {
+    }
 
     @Override
     public String toString() {

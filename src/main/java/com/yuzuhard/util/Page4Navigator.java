@@ -1,5 +1,6 @@
 package com.yuzuhard.util;
 
+import java.io.Serializable;
 import java.util.List;
  
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import org.springframework.data.domain.Page;
  *
  * 在构造方法里，还调用了 calcNavigatepageNums， 就是用来计算这个数值，并返回到一个int 数组变量 navigatepageNums ，方便前端遍历展示。
  */
-public class Page4Navigator<T> {
+public class Page4Navigator<T>{
     Page<T> pageFromJPA;
     int navigatePages;
       

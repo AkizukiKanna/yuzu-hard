@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
-  
+
 //网友提供
 @Configuration
 //Redis 缓存配置类

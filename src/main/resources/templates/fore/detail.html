@@ -71,6 +71,7 @@
 
                         //渲染完才把md转为html
                         vue.$nextTick(function () {
+                            base();
                             testEditormd = editormd.markdownToHTML("test-editormd-view", {
                                 htmlDecode: "style,script,iframe",  // you can filter tags decode
                                 emoji: true,
@@ -84,7 +85,8 @@
                             else
                                 document.title = vue.bean.title;
 
-                            initModel("assets/waifu-tips.json?v=1.4.2")
+                            if($('.waifu').css('display')=='block')
+                                initModel("assets/waifu-tips.json?v=1.4.2")
                         })
 
 
@@ -143,7 +145,7 @@
     <script src="editormd/lib/jquery.flowchart.min.js"></script>
 
 
-    <div class="waifu" style="z-index: 999" v-if="flag=='true'">
+    <div class="waifu hidden-xs" style="z-index: 999" v-if="flag=='true'">
         <div class="waifu-tips"></div>
         <canvas id="live2d" class="live2d"></canvas>
         <div class="waifu-tool">
@@ -160,14 +162,7 @@
 
     <script src="assets/waifu-tips.js?v=1.4.2"></script>
     <script src="assets/live2d.js?v=1.0.5"></script>
-    <script type="text/javascript">
-        /* 可直接修改部分参数 */
-        live2d_settings['modelId'] = 3;                  // 默认模型 ID
-        live2d_settings['modelTexturesId'] = 10;         // 默认材质 ID
-        live2d_settings['modelStorage'] = true;         // 储存模型 ID
 
-
-    </script>
 </div>
 </body>
 

@@ -33,6 +33,9 @@
                          easing: 'ease-out-back',
                          duration: 1000
                      });
+
+                     if($('.waifu').css('display')=='block')
+                         initModel("assets/waifu-tips.json?v=1.4.2")
                  })
              },
              methods: {
@@ -83,7 +86,7 @@
 </script>
 <!-- aos动画结束 -->
 
-<div class="waifu" style="z-index: 999">
+<div class="waifu hidden-xs" style="z-index: 999">
     <div class="waifu-tips"></div>
     <canvas id="live2d" class="live2d"></canvas>
     <div class="waifu-tool">
@@ -101,12 +104,12 @@
 <script src="assets/live2d.js?v=1.0.5"></script>
 <script type="text/javascript">
     /* 可直接修改部分参数 */
-    live2d_settings['modelId'] = 3;                  // 默认模型 ID
-    live2d_settings['modelTexturesId'] = 10;         // 默认材质 ID
-    live2d_settings['modelStorage'] = true;         // 储存模型 ID
+    // live2d_settings['modelId'] = 3;                  // 默认模型 ID
+    // live2d_settings['modelTexturesId'] = 10;         // 默认材质 ID
+    // live2d_settings['modelStorage'] = true;         // 储存模型 ID
 
     /* 在 initModel 前添加 */
-    initModel("assets/waifu-tips.json?v=1.4.2")
+
 </script>
 </body>
 

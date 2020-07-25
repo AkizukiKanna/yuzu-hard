@@ -6,6 +6,9 @@ import com.yuzuhard.pojo.Category;
 import com.yuzuhard.pojo.Tag;
 import com.yuzuhard.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
+@CacheConfig(cacheNames = "tags")
 public class TagService {
     public static final String deleted = "deleted";
     public static final String saved = "saved";
@@ -22,6 +26,7 @@ public class TagService {
     TagDAO tagDAO;
 
     //navigatePages分页导航栏要显示出的页的数量
+    @Cacheable(key = "'tags-page-'+#p0+ '-' + #p1+ '-' + #p2")
     public Page4Navigator<Tag> list(int start, int size, int navigatePages){
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         //PageRequest存放分页信息，第一个参数page(start)是页码，就是本次查询要查询哪一页，默认是从0开始的。
@@ -32,25 +37,30 @@ public class TagService {
     }
 
     //逻辑删除
+    @CacheEvict(allEntries=true)
     public void delete(int id){
         Tag tag = get(id);
         tag.setStatus(deleted);
         update(tag);
     }
 
+    @Cacheable(key = "'tags-one-'+ #p0")
     public Tag get(int id){
         return tagDAO.findById(id).get();
     }
 
+    @CacheEvict(allEntries=true)
     public void update(Tag bean){
         tagDAO.save(bean);
     }
 
+    @CacheEvict(allEntries=true)
     public void add(Tag bean){
         bean.setStatus(saved);
         tagDAO.save(bean);
     }
 
+    @Cacheable(key = "'findIdNameUseStatus-'+ #p0")
     public Object findIdNameUseStatus(String status){
         return tagDAO.findIdNameUseStatus(status);
     }
