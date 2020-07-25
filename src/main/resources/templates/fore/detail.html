@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="include/fore/header::html" ></head>
+<head th:include="include/fore/header::html"></head>
 
 
 <link rel="stylesheet" href="../static/css/detail/detail.css">
@@ -8,7 +8,7 @@
 <!--路由-->
 <script src="https://how2j.cn/study/vue-router.min.js"></script>
 <!--编辑器插件-->
-<link rel="stylesheet" href="editormd/css/editormd.css" />
+<link rel="stylesheet" href="editormd/css/editormd.css"/>
 <script src="editormd/editormd.min.js"></script>
 
 <script>
@@ -28,7 +28,8 @@
             category: {},
             categories: [],
             tags: [],
-            user:{}
+            user: {},
+            flag: ''
         };
 
         //ViewModel
@@ -50,21 +51,23 @@
                 })
             },
             methods: {
-                getUser:function(){
-                    var url =  'user';
-                    axios.get(url).then(function(response){
+                getUser: function () {
+                    var url = 'user';
+                    axios.get(url).then(function (response) {
                         vue.user = response.data;
                     })
                 },
                 get: function () {
-                    var url = "contents/"+id;
+                    var url = "fore/contents/" + id;
                     axios.get(url).then(function (response) {
-                        if ('No value present' == response.data){
-                            alert("球球你，正常一点吧")
-                            location.href='/404'
+                        if (0 == response.data.code) {
+                            vue.bean = response.data.data;
+                            vue.category = response.data.data.category;
+                            vue.flag = 'true';
+                        }else {
+                            vue.flag ='false';
                         }
-                        vue.bean = response.data;
-                        vue.category = response.data.category;
+
 
                         //渲染完才把md转为html
                         vue.$nextTick(function () {
@@ -76,8 +79,10 @@
                                 flowChart: true,  // 默认不解析
                                 sequenceDiagram: true,  // 默认不解析
                             });
-
-                            document.title=vue.bean.title;
+                            if (vue.flag=="false")
+                                document.title = '页面出错了';
+                            else
+                                document.title = vue.bean.title;
 
                             initModel("assets/waifu-tips.json?v=1.4.2")
                         })
@@ -106,60 +111,64 @@
 
 </script>
 <body>
-<div  id="workArea">
-    <div th:replace="include/fore/top-bar::html" ></div>
-    <div th:replace="include/fore/detail::html" ></div>
-    <div th:replace="include/fore/footer::html" ></div>
-</div>
-<!-- aos动画开始 -->
-<script src="static/aos/js/highlight.min.js"></script>
-<script src="static/aos/dist/aos.js"></script>
-<script>
-    AOS.init({
-        easing: 'ease-out-back',
-        duration: 1000
-    });
-</script>
-<!-- aos动画结束 -->
-
-
-<script src="editormd/lib/marked.min.js"></script>
-<script src="editormd/lib/prettify.min.js"></script>
-<script src="editormd/lib/raphael.min.js"></script>
-<script src="editormd/lib/underscore.min.js"></script>
-<script src="editormd/lib/sequence-diagram.min.js"></script>
-<script src="editormd/lib/flowchart.min.js"></script>
-<script src="editormd/lib/jquery.flowchart.min.js"></script>
-
-
-
-
-<div class="waifu" style="z-index: 999">
-    <div class="waifu-tips"></div>
-    <canvas id="live2d" class="live2d"></canvas>
-    <div class="waifu-tool">
-        <span class="fui-home"></span>
-        <span class="fui-chat"></span>
-        <span class="fui-eye"></span>
-        <span class="fui-user"></span>
-        <span class="fui-photo"></span>
-        <span class="fui-info-circle"></span>
-        <span class="fui-cross"></span>
+<div id="workArea" v-cloak>
+    <div v-if="flag=='true'">
+        <div th:replace="include/fore/top-bar::html"></div>
+        <div th:replace="include/fore/detail::html"></div>
+        <div th:replace="include/fore/footer::html"></div>
     </div>
+    <div v-if="flag=='false'" >
+        <h1>页面出错了！</h1>
+    </div>
+
+
+    <!-- aos动画开始 -->
+    <script src="static/aos/js/highlight.min.js"></script>
+    <script src="static/aos/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            easing: 'ease-out-back',
+            duration: 1000
+        });
+    </script>
+    <!-- aos动画结束 -->
+
+
+    <script src="editormd/lib/marked.min.js"></script>
+    <script src="editormd/lib/prettify.min.js"></script>
+    <script src="editormd/lib/raphael.min.js"></script>
+    <script src="editormd/lib/underscore.min.js"></script>
+    <script src="editormd/lib/sequence-diagram.min.js"></script>
+    <script src="editormd/lib/flowchart.min.js"></script>
+    <script src="editormd/lib/jquery.flowchart.min.js"></script>
+
+
+    <div class="waifu" style="z-index: 999" v-if="flag=='true'">
+        <div class="waifu-tips"></div>
+        <canvas id="live2d" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+    </div>
+
+
+    <script src="assets/waifu-tips.js?v=1.4.2"></script>
+    <script src="assets/live2d.js?v=1.0.5"></script>
+    <script type="text/javascript">
+        /* 可直接修改部分参数 */
+        live2d_settings['modelId'] = 3;                  // 默认模型 ID
+        live2d_settings['modelTexturesId'] = 10;         // 默认材质 ID
+        live2d_settings['modelStorage'] = true;         // 储存模型 ID
+
+
+    </script>
 </div>
-
-
-
-<script src="assets/waifu-tips.js?v=1.4.2"></script>
-<script src="assets/live2d.js?v=1.0.5"></script>
-<script type="text/javascript">
-    /* 可直接修改部分参数 */
-    live2d_settings['modelId'] = 3;                  // 默认模型 ID
-    live2d_settings['modelTexturesId'] = 10;         // 默认材质 ID
-    live2d_settings['modelStorage'] = true;         // 储存模型 ID
-
-
-</script>
 </body>
 
 </html>
