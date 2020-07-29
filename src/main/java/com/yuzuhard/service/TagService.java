@@ -2,6 +2,8 @@ package com.yuzuhard.service;
 
 
 import com.yuzuhard.dao.TagDAO;
+import com.yuzuhard.dto.CategoryDto;
+import com.yuzuhard.dto.TagDto;
 import com.yuzuhard.pojo.Category;
 import com.yuzuhard.pojo.Tag;
 import com.yuzuhard.util.Page4Navigator;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "tags")
@@ -49,19 +54,28 @@ public class TagService {
         return tagDAO.findById(id).get();
     }
 
-    @CacheEvict(allEntries=true)
+    @CacheEvict(value = {"contents","categories","ct_t_relation","tags"},allEntries=true)
     public void update(Tag bean){
         tagDAO.save(bean);
     }
 
-    @CacheEvict(allEntries=true)
+    @CacheEvict(value = {"contents","categories","ct_t_relation","tags"},allEntries=true)
     public void add(Tag bean){
         bean.setStatus(saved);
         tagDAO.save(bean);
     }
 
     @Cacheable(key = "'findIdNameUseStatus-'+ #p0")
-    public Object findIdNameUseStatus(String status){
-        return tagDAO.findIdNameUseStatus(status);
+    public List<TagDto> findIdNameUseStatus(String status){
+        List<Object[]> objectList = tagDAO.findIdNameUseStatus(status);
+
+        List list = new ArrayList();
+        for (Object[] objects : objectList){
+            TagDto tagDto = new TagDto(
+                    (int)objects[0],
+                    (String)objects[1]);
+            list.add(tagDto);
+        }
+        return list;
     }
 }

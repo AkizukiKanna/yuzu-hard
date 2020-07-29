@@ -32,5 +32,6 @@ public interface Ct_t_relationshipDAO extends JpaRepository<Ct_t_relationship,In
     //根据ctid查对应tid和tname
     @Query(value = "select t.id ,t.name  from tag t ,ct_t_relationship r " +
             "where r.tid = t.id and r.ctid=:ctid",nativeQuery = true)
-    List<Map<String,Object>> findTidTnameByCTid(int ctid);
+//    List<Map<String,Object>> findTidTnameByCTid(int ctid);
+    List<Object[]> findTidTnameByCTid(int ctid);
 }

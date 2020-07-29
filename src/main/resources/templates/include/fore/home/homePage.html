@@ -59,8 +59,8 @@
             <article aos="fade-up" aos-once="true" v-for="bean in beans">
                 <!-- 图片 -->
                 <div class="post-thumb">
-                    <a :href='"/detail?id="+bean.id' >
-                        <img :data-src="bean.firstImg"  class="lazyload">
+                    <a :href='"/detail?id="+bean.content.id' >
+                        <img :data-src="bean.content.firstImg"  class="lazyload">
                     </a>
                 </div>
                 <!-- 文章 -->
@@ -68,20 +68,20 @@
                     <div class="post-content">
                         <!-- 时间 -->
                         <div class="post-date">
-                            发布于 {{bean.modified | formatDateFilter}}
+                            发布于 {{bean.content.modified | formatDateFilter}}
                         </div>
                         <!-- 标题 -->
-                        <a :href='"/detail?id="+bean.id' >
-                            <h3>{{bean.title}}</h3>
+                        <a :href='"/detail?id="+bean.content.id' >
+                            <h3>{{bean.content.title}}</h3>
                         </a>
                         <!-- 标签 -->
                         <div class="post-meta">
                             <span>-- 热度</span>
-                            <span v-for="tag in bean.tag"><a href="#nowhere">{{tag.name}}</a></span>
+                            <span v-for="tag in bean.tag"><a href="#nowhere">{{tag.tagName}}</a></span>
                         </div>
                         <!-- 内容 -->
                         <div class="content">
-                            <p>{{bean.articleAbstract}}</p>
+                            <p>{{bean.content.articleAbstract}}</p>
                         </div>
                     </div>
                 </div>

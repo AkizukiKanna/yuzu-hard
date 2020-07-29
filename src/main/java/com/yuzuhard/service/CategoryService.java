@@ -1,6 +1,8 @@
 package com.yuzuhard.service;
 
 import com.yuzuhard.dao.CategoryDAO;
+import com.yuzuhard.dto.CategoryDto;
+import com.yuzuhard.dto.ContentDto;
 import com.yuzuhard.pojo.Category;
 import com.yuzuhard.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "categories")
@@ -47,19 +53,28 @@ public class CategoryService {
         return categoryDAO.findById(id).get();
     }
 
-    @CacheEvict(allEntries=true)
+    @CacheEvict(value = {"contents","categories","ct_t_relation","tags"},allEntries=true)
     public void update(Category bean) {
         categoryDAO.save(bean);
     }
 
-    @CacheEvict(allEntries=true)
+    @CacheEvict(value = {"contents","categories","ct_t_relation","tags"},allEntries=true)
     public void add(Category bean) {
         bean.setStatus(saved);
         categoryDAO.save(bean);
     }
 
     @Cacheable(key = "'findIdNameUseStatus-'+ #p0")
-    public Object findIdNameUseStatus(String status) {
-        return categoryDAO.findIdNameUseStatus(status);
+    public List<CategoryDto> findIdNameUseStatus(String status) {
+        List<Object[]> objectList = categoryDAO.findIdNameUseStatus(status);
+
+        List list = new ArrayList();
+        for (Object[] objects : objectList){
+            CategoryDto categoryDto = new CategoryDto(
+                    (int)objects[0],
+                    (String)objects[1]);
+            list.add(categoryDto);
+        }
+        return list;
     }
 }

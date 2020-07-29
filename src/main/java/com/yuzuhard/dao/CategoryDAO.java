@@ -13,5 +13,5 @@ public interface CategoryDAO extends JpaRepository<Category,Integer>{
     //查询所有分类表中状态为"status"的id和name
     @Query(value = "SELECT id , name FROM  category  WHERE status = :status" ,
             nativeQuery = true)
-    List<Map<String,Object>> findIdNameUseStatus(@Param("status")String status);
+    List<Object[]> findIdNameUseStatus(@Param("status")String status);
 }

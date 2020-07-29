@@ -31,10 +31,10 @@ public class ContentController {
     Ct_t_relationshipService ct_t_relationshipService;
 
     @GetMapping("/contents")
-    public Page4Navigator<Content> list(@RequestParam(value = "start", defaultValue = "0") int start,
+    public Page4Navigator<Object[]> list(@RequestParam(value = "start", defaultValue = "0") int start,
                                         @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         start = 0 < start ? start : 0;
-        Page4Navigator<Content> page = contentService.list(start, size, 5); //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
+        Page4Navigator<Object[]> page = contentService.list(start, size, 5); //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
         return page;
     }
 

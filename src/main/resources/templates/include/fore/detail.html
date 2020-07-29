@@ -29,24 +29,7 @@
         </div>
 
         <!-- 首页右边导航 -->
-        <div class="menu-wrapper">
-            <ul class="menu-right">
-                <li>
-                    <ul class="category">
-                        <h3>分类</h3>
-                        <li v-for="category in categories"><a href="#nowhere">{{category.name}}</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <ul class="tag">
-                        <h3>标签</h3>
-                        <li v-for="tag in tags"><a href="#nowhere">{{tag.name}}</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-        </div>
+        <div th:replace="include/fore/rightMenu::html"></div>
 
     </div>
     <!-- ------------------------------------------------------------------------------------------------------------------------------- -->

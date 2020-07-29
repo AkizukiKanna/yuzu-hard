@@ -1,14 +1,14 @@
 package com.yuzuhard.web;
 
+import com.yuzuhard.dto.ContentDto;
+import com.yuzuhard.dto.Ct_t_relationshipDto;
 import com.yuzuhard.pojo.Content;
 import com.yuzuhard.service.ContentService;
 import com.yuzuhard.service.Ct_t_relationshipService;
+import com.yuzuhard.util.Page4Navigator;
 import com.yuzuhard.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,13 +32,14 @@ public class ForeController {
     public Object getContents(){
         List list =new ArrayList();
 
-        List<Map<String, Object>> list_content = contentService.getByStatus(contentService.published);
+        List<ContentDto> list_content = contentService.getByStatus(contentService.published);
 
-        for (Map<String,Object> map_content: list_content){
-            int id = Integer.parseInt(map_content.get("id").toString());
-            List<Map<String, Object>> map_tag  = ct_t_relationshipService.findTidTnameByCTid(id);
-            Map<String,Object> map = new HashMap<>(map_content);
-            map.put("tag",map_tag);
+        for (ContentDto contentDto: list_content){
+            int id = contentDto.getId();
+            List<Ct_t_relationshipDto> ctTRelationshipDtos  = ct_t_relationshipService.findTidTnameByCTid(id);
+            Map<String,Object> map = new HashMap<>();
+            map.put("content",contentDto);
+            map.put("tag",ctTRelationshipDtos);
             list.add(map);
         }
 
@@ -48,7 +49,7 @@ public class ForeController {
 
     //根据ctid查对应tid和tname
     @GetMapping("/contents/{id}/tag")
-    public List<Map<String, Object>> getTagByCTid(@PathVariable("id") int ctid){
+    public List<Ct_t_relationshipDto> getTagByCTid(@PathVariable("id") int ctid){
         return ct_t_relationshipService.findTidTnameByCTid(ctid);
     }
 
@@ -65,5 +66,31 @@ public class ForeController {
             return Result.fail("出错了");
         }else
         return Result.success(content);
+    }
+
+    @GetMapping("/index/category/{cgid}")
+    public Object getCategoryIndex(@PathVariable("cgid") int cgid,
+                                   @RequestParam(value = "start", defaultValue = "0") int start,
+                                   @RequestParam(value = "size", defaultValue = "5") int size) throws Exception{
+        start = 0 < start ? start : 0;
+        Page4Navigator<Object[]> page = contentService.listByCategory(start, size, cgid,5);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("page",page);
+
+        return Result.success(map);
+    }
+
+    @GetMapping("/index/tag/{tid}")
+    public Object getTagIndex(@PathVariable("tid") int tid,
+                                   @RequestParam(value = "start", defaultValue = "0") int start,
+                                   @RequestParam(value = "size", defaultValue = "5") int size) throws Exception{
+        start = 0 < start ? start : 0;
+        Page4Navigator<Object[]> page = contentService.listByTag(start, size, tid,5);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("page",page);
+
+        return Result.success(map);
     }
 }

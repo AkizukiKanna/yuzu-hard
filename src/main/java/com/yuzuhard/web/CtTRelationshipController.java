@@ -14,6 +14,6 @@ public class CtTRelationshipController {
     //根据contentId选取选中的tagsID
     @GetMapping("/contents/{id}/tags")
     public int[] getByContent(@PathVariable("id") int id){
-        return ct_t_relationshipService.getByContentId(id);
+        return ct_t_relationshipService.getByContentId(id).getTagIds();
     }
 }

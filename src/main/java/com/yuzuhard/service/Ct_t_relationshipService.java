@@ -1,6 +1,8 @@
 package com.yuzuhard.service;
 
 import com.yuzuhard.dao.Ct_t_relationshipDAO;
+import com.yuzuhard.dto.ContentDto;
+import com.yuzuhard.dto.Ct_t_relationshipDto;
 import com.yuzuhard.pojo.Content;
 import com.yuzuhard.pojo.Ct_t_relationship;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +33,11 @@ public class Ct_t_relationshipService {
     }
 
     @Cacheable(key = "'ct_t_relation-'+ #p0")
-    public int[] getByContentId(int ctid){
-        return ct_t_relationshipDAO.findByContentId(ctid,"saved");
+    public Ct_t_relationshipDto getByContentId(int ctid){
+        int[] tagIds = ct_t_relationshipDAO.findByContentId(ctid,"saved");
+
+        Ct_t_relationshipDto dto = new Ct_t_relationshipDto(tagIds);
+        return dto;
     }
 
     @Transactional
@@ -47,7 +54,18 @@ public class Ct_t_relationshipService {
 
     //根据ctid查对应tid和tname
     @Cacheable(key = "'findTidTnameByCTid-'+ #p0")
-    public List<Map<String, Object>> findTidTnameByCTid(int ctid){
-        return ct_t_relationshipDAO.findTidTnameByCTid(ctid);
+    public List<Ct_t_relationshipDto> findTidTnameByCTid(int ctid){
+        List<Object[]> objectList = ct_t_relationshipDAO.findTidTnameByCTid(ctid);
+
+        List list = new ArrayList();
+        for (Object[] objects : objectList){
+            Ct_t_relationshipDto ct_t_relationshipDto = new Ct_t_relationshipDto(
+                    (int)objects[0],
+                    (String)objects[1]);
+            list.add(ct_t_relationshipDto);
+        }
+        return list;
     }
+
+
 }

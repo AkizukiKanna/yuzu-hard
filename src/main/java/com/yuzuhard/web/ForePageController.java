@@ -18,4 +18,8 @@ public class ForePageController {
     public String detail(){
         return "fore/detail";
     }
+    @GetMapping("/indexByCategory")
+    public String indexByCategory(){
+        return "fore/indexByCategory";
+    }
 }

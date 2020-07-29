@@ -18,7 +18,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             tags: [],
             //将要提交的
             content: {},
-            category: {id: 0, name: ''},
+            category: { "id": null,
+                "name": "",
+                "description": null,
+                "count": 0,
+                "status": null},
             tag: [],
             flag:''
         };
@@ -71,7 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     var url = "categories/findIdName/" + status;
                     axios.get(url).then(function (response) {
                         vue.categories = response.data;
-                        vue.category = vue.categories[0];
+                        // vue.category = vue.categories[0];
                     })
                 },
                 getTags: function () {

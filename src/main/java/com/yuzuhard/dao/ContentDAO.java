@@ -18,8 +18,8 @@ public interface ContentDAO extends JpaRepository<Content, Integer> {
     @Query(value = "SELECT id ,title,created ,modified ,firstImg ,status ,password ,allowComment ,pvNum   " +
             "FROM  content " ,
             nativeQuery = true)
-    Page<Map<String,Object>> findNotAbstractAndText(Pageable pageable);
-//    Page<List<ContentDto>> findNotAbstractAndText(Pageable pageable);
+//    Page<Map<String,Object>> findNotAbstractAndText(Pageable pageable);
+    Page<Object[]> findNotAbstractAndText(Pageable pageable);
 
     @Query(value = "select created from content where id = :id",nativeQuery = true)
     Date findCreatedById(int id);
@@ -30,21 +30,27 @@ public interface ContentDAO extends JpaRepository<Content, Integer> {
     int updateStatus(int id,String status);
 
     //根据status查询
-    @Query(value = "select c.id ,c.title,c.created ,c.modified ,c.firstImg ,c.articleAbstract  ,c.pvNum ,cg.name " +
+    @Query(value = "select c.id ,c.title ,c.articleAbstract ,c.created ,c.modified ,c.firstImg   ,c.pvNum ,cg.name " +
             "from  content c, category cg " +
             " where c.status=:status and c.cgid=cg.id" +
             " order by id desc " +
             "limit 0,10",nativeQuery = true)
-    List<Map<String,Object>> findByStatus(String status);
+    List<Object[]> findByStatus(String status);
 
 
+    //根据cgid查询文章
+    @Query(value = "select c.id ,c.title ,c.articleAbstract ,c.created ,c.modified ,c.firstImg   ,c.pvNum ,cg.name " +
+            "from  content c, category cg " +
+            " where c.cgid=:cgid and c.cgid=cg.id and c.status='published' ",
+            countQuery = "select count(*) from content , category where content.cgid=:cgid and content.cgid=category.id and content.status='published' ",
+            nativeQuery = true)
+    Page<Object[]> findByCategoryOrderById(int cgid,Pageable pageable);
 
-
+    //根据tid查询文章
+    @Query(value = "select c.id ,c.title ,c.articleAbstract ,c.created ,c.modified ,c.firstImg   ,c.pvNum  " +
+            "from  content c, ct_t_relationship r " +
+            " where r.tid=:tid and r.ctid=c.id and c.status='published' ",
+            countQuery = "select count(*) from content ,ct_t_relationship where ct_t_relationship.tid=:tid and ct_t_relationship.ctid=content.id and content.status='published' ",
+            nativeQuery = true)
+    Page<Object[]> findByTagOrderById(int tid,Pageable pageable);
 }
-/**
- * 两表连接查询
- @Query(value = "SELECT ct.id ,ct.title,ct.created ,ct.modified ,ct.firstImg ,ct.status ,ct.password ,ct.allowComment ,ct.pvNum ,cg.name   " +
- "FROM  content ct  ,category cg " +
- "where ct.cgid=cg.id",
- nativeQuery = true)
- */
