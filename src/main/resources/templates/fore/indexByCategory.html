@@ -42,6 +42,17 @@
                 this.getCategories();
                 this.getTags();
                 this.$nextTick(function () {
+
+                    bubbly({
+                        bubbles: 10,
+                        colorStart: "#fff4e6",
+                        colorStop: "#ffe9e4",
+                        blur: 4,
+                        canvas: document.querySelector("#background"),
+                        compose: "source-over",
+                        bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
+                    });
+
                 })
             },
             methods: {
@@ -58,7 +69,7 @@
                         }else {
                             vue.flag ='false';
                         }
-                        //渲染完才把md转为html
+
                         vue.$nextTick(function () {
                             AOS.init({
                                 easing: 'ease-out-back',
@@ -116,6 +127,7 @@
 <div id="workArea" v-cloak>
     <div v-if="flag=='true'">
         <div th:replace="include/fore/top-bar::html"></div>
+        <canvas id="background" class="background-fixed"></canvas>
         <div th:replace="include/fore/indexByCategory::html"></div>
         <div th:replace="include/fore/footer::html"></div>
     </div>

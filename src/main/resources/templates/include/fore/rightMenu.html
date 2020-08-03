@@ -10,7 +10,7 @@
         <li>
             <ul class="tag">
                 <h3>标签</h3>
-                <li v-for="tag in tags"><a href="#nowhere">{{tag.name}}</a></li>
+                <li v-for="tag in tags"><a :href="'/indexByTag?tid='+tag.id">{{tag.name}}</a></li>
             </ul>
         </li>
 

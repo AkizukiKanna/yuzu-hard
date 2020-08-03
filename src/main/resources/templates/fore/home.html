@@ -29,9 +29,33 @@
                  this.$nextTick(function () {
                      // 添加事件监听
                      base();//事件绑定
+                     $(window).scroll(function () {
+                         var winScrollHeight = $(window).scrollTop();
+                         if (winScrollHeight >= $('.article-wrapper').offset().top) {
+                             if ($('#background').hasClass("background-home-absolute") == true) {
+                                 $('#background').removeClass("background-home-absolute").addClass('background-home-fixed');
+                             }
+                         }
+                         else {
+                             if ($('#background').hasClass("background-home-fixed") == true) {
+                                 $('#background').removeClass('background-home-fixed').addClass('background-home-absolute');
+                             }
+                         }
+                     });
+
                      AOS.init({
                          easing: 'ease-out-back',
                          duration: 1000
+                     });
+
+                     bubbly({
+                         bubbles: 10,
+                         colorStart: "#fff4e6",
+                         colorStop: "#ffe9e4",
+                         blur: 4,
+                         canvas: document.querySelector("#background"),
+                         compose: "source-over",
+                         bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
                      });
 
                      if($('.waifu').css('display')=='block')
@@ -55,6 +79,8 @@
                                  easing: 'ease-out-back',
                                  duration: 1000
                              });
+
+
 
                          })
                      });

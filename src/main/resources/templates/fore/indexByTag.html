@@ -3,7 +3,7 @@
 <head th:include="include/fore/header::html"></head>
 
 
-<link rel="stylesheet" href="../static/css/detail/detail.css">
+<link rel="stylesheet" href="../static/css/index/index.css">
 
 <!--路由-->
 <script src="https://how2j.cn/study/vue-router.min.js"></script>
@@ -12,7 +12,7 @@
 <script src="editormd/editormd.min.js"></script>
 
 <script>
-    var id = getUrlParms("id");
+    var tid = getUrlParms("tid");
     $(function () {
         // 懒加载
         Vue.use(VueLazyload, {
@@ -24,12 +24,13 @@
 
         var data4Vue = {
             user: [],
-            bean: {},
-            category: {},
             categories: [],
             tags: [],
-            user: {},
-            flag: ''
+            flag:'',
+            tagName:'',
+            pagination:[],
+            beans: [],
+
         };
 
         //ViewModel
@@ -37,88 +38,92 @@
             el: '#workArea',
             data: data4Vue,
             mounted: function () { //mounted　表示这个 Vue 对象加载成功了
-                this.get();
+                this.list(0);
+                this.getUser();
                 this.getCategories();
                 this.getTags();
-                this.getUser();
                 this.$nextTick(function () {
-                    // 添加事件监听
-                    base();//事件绑定
-                    AOS.init({
-                        easing: 'ease-out-back',
-                        duration: 1000
+                    bubbly({
+                        bubbles: 10,
+                        colorStart: "#fff4e6",
+                        colorStop: "#ffe9e4",
+                        blur: 4,
+                        canvas: document.querySelector("#background"),
+                        compose: "source-over",
+                        bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
                     });
                 })
             },
             methods: {
+                list:function(start){
+                    var url = '/fore/index/tag/' + tid +'?start='+ start;
+                    axios.get(url).then(function (response) {
+                        if (0 == response.data.code) {
+                            vue.beans = response.data.data.page.content;
+                            vue.pagination = response.data.data.page;
+
+                            for (var tag of response.data.data.page.content[0].tags) {
+                                if (tag.tagId == tid)
+                                    vue.tagName = tag.tagName;
+                            }
+
+                            vue.flag = 'true';
+                            //跳到顶部
+                            window.scrollTo(0,0);
+                        }else {
+                            vue.flag ='false';
+                        }
+
+                        vue.$nextTick(function () {
+                            AOS.init({
+                                easing: 'ease-out-back',
+                                duration: 1000
+                            });
+                            base();
+                            if (vue.flag=="false")
+                                document.title = '页面出错了';
+                            else
+                                document.title = '标签:'+vue.tagName;
+
+                            if($('.waifu').css('display')=='block')
+                                initModel("assets/waifu-tips.json?v=1.4.2")
+                        })
+
+                    })
+                },
                 getUser: function () {
                     var url = 'user';
                     axios.get(url).then(function (response) {
                         vue.user = response.data;
                     })
                 },
-                get: function () {
-                    var url = "fore/contents/" + id;
-                    axios.get(url).then(function (response) {
-                        if (0 == response.data.code) {
-                            vue.bean = response.data.data;
-                            vue.category = response.data.data.category;
-                            vue.flag = 'true';
-                        }else {
-                            vue.flag ='false';
-                        }
-
-
-                        //渲染完才把md转为html
-                        vue.$nextTick(function () {
-                            base();
-                            testEditormd = editormd.markdownToHTML("test-editormd-view", {
-                                htmlDecode: "style,script,iframe",  // you can filter tags decode
-                                emoji: true,
-                                taskList: true,
-                                tex: true,  // 默认不解析
-                                flowChart: true,  // 默认不解析
-                                sequenceDiagram: true,  // 默认不解析
-                            });
-                            if (vue.flag=="false")
-                                document.title = '页面出错了';
-                            else
-                                document.title = vue.bean.title;
-
-                            bubbly({
-                                bubbles: 10,
-                                colorStart: "#fff4e6",
-                                colorStop: "#ffe9e4",
-                                blur: 4,
-                                canvas: document.querySelector("#background"),
-                                compose: "source-over",
-                                bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
-                            });
-
-                            if($('.waifu').css('display')=='block')
-                                initModel("assets/waifu-tips.json?v=1.4.2")
-                        })
-
-
-                    });
-
-                },
                 getCategories: function () {
-                    var url = 'categories/findIdName/saved';
+                    var url = '/categories/findIdName/saved';
                     axios.get(url).then(function (response) {
                         vue.categories = response.data;
                     })
                 },
                 getTags: function () {
-                    var url = 'tags/findIdName/saved';
+                    var url = '/tags/findIdName/saved';
                     axios.get(url).then(function (response) {
                         vue.tags = response.data;
                     })
                 },
+                jump: function (page) {
+                    jump(page, vue);
+                },
+                jumpByNumber: function (start) {
+                    jumpByNumber(start, vue);
+                }
             },
         });
 
+
+
+
+
     })
+
 
 
 </script>
@@ -127,7 +132,7 @@
     <div v-if="flag=='true'">
         <div th:replace="include/fore/top-bar::html"></div>
         <canvas id="background" class="background-fixed"></canvas>
-        <div th:replace="include/fore/detail::html"></div>
+        <div th:replace="include/fore/indexByTag::html"></div>
         <div th:replace="include/fore/footer::html"></div>
     </div>
     <div v-if="flag=='false'" >

@@ -22,4 +22,8 @@ public class ForePageController {
     public String indexByCategory(){
         return "fore/indexByCategory";
     }
+    @GetMapping("/indexByTag")
+    public String indexByTag(){
+        return "fore/indexByTag";
+    }
 }
