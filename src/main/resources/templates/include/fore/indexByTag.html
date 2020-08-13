@@ -7,43 +7,43 @@
         <div class="article-wrapper">
             <div class="content-left">
 
-                <h3>
+                <h3 class="yh-translucent-wrapper" aos="zoom-in">
                     标签：<span>{{tagName}}</span>
                 </h3>
-                <article aos="flip-left" aos-once="true" v-for="bean in beans">
-                    <!-- 图片 -->
-                    <div class="post-thumb">
-                        <a :href='"/detail?id="+bean.content.id' >
-                            <img :data-src="bean.content.firstImg"  class="lazyload">
+                <article class="yh-translucent-wrapper" aos="flip-up"  v-for="bean in beans">
+                    <!-- 标题 -->
+                    <h3 class="yh-lighting-title">
+                        <a :href='"/detail?id="+bean.content.id'>
+                        <span>
+                            {{bean.content.title}}
+                        </span>
                         </a>
+                    </h3>
+                    <!-- 标签 -->
+                    <div class="yh-thumb-tag">
+                        <span><i class="fa fa-calendar"></i>&nbsp;{{bean.content.modified | formatDateFilter}}</span>
+                        <span><i class="fa fa-eye"></i>&nbsp;--</span>
+                        <span v-for="tag in bean.tags"><a :href="'/indexByTag?tid='+tag.tagId"><i class="fa fa-tag"></i>&nbsp;{{tag.tagName}}</a></span>
                     </div>
-                    <!-- 文章 -->
-                    <div class="post-content-wrapper">
-                        <div class="post-content">
-                            <!-- 时间 -->
-                            <div class="post-date">
-                                发布于 {{bean.content.modified | formatDateFilter}}
-                            </div>
-                            <!-- 标题 -->
-                            <a :href='"/detail?id="+bean.content.id'>
-                                <h3>{{bean.content.title}}</h3>
-                            </a>
-                            <!-- 标签 -->
-                            <div class="post-meta">
-                                <span>-- 热度</span>
-                                <span v-for="tag in bean.tags"><a :href="'/indexByTag?tid='+tag.tagId">{{tag.tagName}}</a></span>
-                            </div>
-                            <!-- 内容 -->
-                            <div class="content">
+                    <!-- 图片 -->
+                    <div class="yh-pic">
+                        <a :href='"/detail?id="+bean.content.id'>
+                            <img :data-src="bean.content.firstImg" class="lazyload">
+                            <div class="hidden-xs">
                                 <p>{{bean.content.articleAbstract}}</p>
                             </div>
-                        </div>
+                        </a>
+                    </div>
+                    <!-- 内容 -->
+                    <div class="yh-content visible-xs">
+                        <p>{{bean.content.articleAbstract}}</p>
                     </div>
                 </article>
+            </div>
 
+            <div class="yh-translucent-wrapper" v-if="pagination.numberOfElements != 0" aos="fade-right">
                 <!--分页-->
                 <div th:replace="include/fore/forePage::html"></div>
-
             </div>
         </div>
 

@@ -2,18 +2,21 @@ package com.yuzuhard.web;
 
 import com.yuzuhard.dto.ContentDto;
 import com.yuzuhard.dto.Ct_t_relationshipDto;
+import com.yuzuhard.pojo.Comment;
 import com.yuzuhard.pojo.Content;
+import com.yuzuhard.service.CommentService;
 import com.yuzuhard.service.ContentService;
 import com.yuzuhard.service.Ct_t_relationshipService;
+import com.yuzuhard.util.IPUtill;
 import com.yuzuhard.util.Page4Navigator;
 import com.yuzuhard.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @RestController
 @RequestMapping("/fore")
@@ -22,6 +25,8 @@ public class ForeController {
     ContentService contentService;
     @Autowired
     Ct_t_relationshipService ct_t_relationshipService;
+    @Autowired
+    CommentService commentService;
 
 //    @GetMapping("/fore/contents")
 //    public Object getContents(){
@@ -92,5 +97,31 @@ public class ForeController {
         map.put("page",page);
 
         return Result.success(map);
+    }
+
+    //评论
+    @GetMapping("/{ctid}/comments")
+    public Page4Navigator<Object[]> list(@PathVariable("ctid") int ctid,
+                                         @RequestParam(value = "start", defaultValue = "0") int start,
+                                         @RequestParam(value = "size", defaultValue = "7") int size) throws Exception {
+        start = 0 < start ? start : 0;
+        Page4Navigator<Object[]> page = commentService.listByCTid(ctid,start, size, 5); //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
+        return page;
+    }
+
+    @PostMapping("/comments/{ctid}")
+    public Object addComment(@PathVariable("ctid")int ctid ,@RequestBody Comment bean, HttpServletRequest request, HttpSession session) throws Exception{
+        Content content = contentService.get(ctid);
+        bean.setContent(content);
+        bean.setText(HtmlUtils.htmlEscape(bean.getText()));
+        String ipAddr = IPUtill.getIpAddr(request);
+        bean.setIp(ipAddr);
+        bean.setCreated(new Date());
+        Object user = session.getAttribute("user");
+        if (null != user){
+            bean.setUrl("www.yuzu-hard.xyz");
+        }
+        commentService.add(bean);
+        return Result.success();
     }
 }

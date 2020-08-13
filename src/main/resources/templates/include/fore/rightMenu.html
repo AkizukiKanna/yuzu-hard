@@ -1,18 +1,17 @@
 <div class="menu-wrapper" th:fragment="html">
     <ul class="menu-right">
         <li>
-            <ul class="category">
+            <ul class="category yh-translucent-wrapper" aos="flip-left">
                 <h3>分类</h3>
-                <li v-for="category in categories"><a :href="'/indexByCategory?cgid='+category.id">{{category.name}}</a></li>
+                <li class="yh-translucent-tag" v-for="category in categories"><a :href="'/indexByCategory?cgid='+category.id">{{category.name}}</a></li>
             </ul>
         </li>
 
         <li>
-            <ul class="tag">
+            <ul class="tag yh-translucent-wrapper" aos="fade-up">
                 <h3>标签</h3>
-                <li v-for="tag in tags"><a :href="'/indexByTag?tid='+tag.id">{{tag.name}}</a></li>
+                <li class="yh-translucent-tag" v-for="tag in tags"><a :href="'/indexByTag?tid='+tag.id">{{tag.name}}</a></li>
             </ul>
         </li>
-
     </ul>
 </div>

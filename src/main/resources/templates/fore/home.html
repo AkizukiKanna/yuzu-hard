@@ -6,17 +6,22 @@
  <script>
 
      $(function () {
+         var loadingNum=0;
+         var loadedNum=0;
          // 懒加载
          Vue.use(VueLazyload, {
              preLoad: 1.3,
              error: '',
-             loading: '',
+             loading: 'img/芳乃-lazyload.jpg',
              attempt: 1
          })
+
 
          var data4Vue = {
              user:[],
              beans: [],
+             dingNum:0,
+             dedNum:0
          };
 
          //ViewModel
@@ -29,6 +34,7 @@
                  this.$nextTick(function () {
                      // 添加事件监听
                      base();//事件绑定
+                     homeBgBind();
                      $(window).scroll(function () {
                          var winScrollHeight = $(window).scrollTop();
                          if (winScrollHeight >= $('.article-wrapper').offset().top) {
@@ -43,15 +49,11 @@
                          }
                      });
 
-                     AOS.init({
-                         easing: 'ease-out-back',
-                         duration: 1000
-                     });
 
                      bubbly({
                          bubbles: 10,
-                         colorStart: "#fff4e6",
-                         colorStop: "#ffe9e4",
+                         colorStart: "#e2f7e2",
+                         colorStop: "#dfeff7",
                          blur: 4,
                          canvas: document.querySelector("#background"),
                          compose: "source-over",
@@ -75,16 +77,48 @@
                          vue.beans = response.data;
 
                          vue.$nextTick(function(){
+
                              AOS.init({
                                  easing: 'ease-out-back',
-                                 duration: 1000
+                                 duration: 1200,
+                                 startEvent: 'scroll'
                              });
+
+                             // vue.aosbinding()
+
+                             // $(window).scroll(function () {
+                             //     $('img.lazyload').each(function () {
+                             //         if ('loading' == $(this).attr('lazy')){
+                             //             loadingNum ++;
+                             //         }else if ('loaded' == $(this).attr('lazy')){
+                             //             loadedNum ++;
+                             //         }
+                             //     })
+                             //     console.log(loadedNum + ' ' + loadingNum)
+                             //     if (loadingNum != vue.dingNum){
+                             //         console.log("执行了")
+                             //         // vue.aosbinding()
+                             //
+                             //     }
+                             //     vue.dingNum = loadingNum;
+                             //     vue.dedNum = loadedNum;
+                             //     loadingNum =0;
+                             //     loadedNum =0;
+                             // })
 
 
 
                          })
                      });
                  },
+                 aosbinding:function () {
+                     console.log("执行了123")
+                     AOS.init({
+                         easing: 'ease-out-back',
+                         duration: 1200,
+                         startEvent: 'scroll'
+                     });
+                 }
              },
          });
 
@@ -98,19 +132,23 @@
 <body>
 <div id="workArea" v-cloak>
     <div th:replace="include/fore/top-bar::html" ></div>
+    <div id="bg-context">
+        <canvas id="background" class="background-home-absolute"></canvas>
+    </div>
     <div th:replace="include/fore/home/homePage::html" ></div>
     <div th:replace="include/fore/footer::html" ></div>
-</div>
+
 <!-- aos动画开始 -->
 <script src="static/aos/js/highlight.min.js"></script>
 <script src="static/aos/dist/aos.js"></script>
 <script>
     AOS.init({
         easing: 'ease-out-back',
-        duration: 1000
+        duration: 1200
     });
 </script>
 <!-- aos动画结束 -->
+
 
 <div class="waifu hidden-xs" style="z-index: 999">
     <div class="waifu-tips"></div>
@@ -137,6 +175,9 @@
     /* 在 initModel 前添加 */
 
 </script>
+</div>
 </body>
+
+
 
 </html>

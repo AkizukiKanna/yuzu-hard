@@ -31,6 +31,7 @@
 
     <link rel="stylesheet" href="static/css/base/base.css">
 
+    <link rel="stylesheet" href="static/css/ui/yuzu-hard-ui.css">
 
     <script src="static/js/base/base.js"></script>
 
@@ -38,7 +39,7 @@
     <script src="static/js/moment.js"></script>
 
     <!--左上角的小图标-->
-    <link rel="shortcut icon" href="http://yuzu-hard.cdn.yuzu-hard.xyz/randomPics/2020-07-17/3181de726609438489a2e6cbecdfbc34-icon01.png">
+    <link rel="shortcut icon" href="img/芳乃icon.png">
 
 
     <!--l2d-->
@@ -46,7 +47,24 @@
     <!-- 实现拖动效果，需引入 JQuery UI -->
     <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
 
+    <!--评论-->
+    <link rel="stylesheet" href="css/semantic.css" type="text/css" />
+    <link rel="stylesheet" href="css/zyComment.css" type="text/css" />
+    <script type="text/javascript" src="js/zyComment.js"></script>
+
+    <link rel="stylesheet" href="css/fore/style.css" type="text/css" />
     <script>
+
+        //判断是否为空
+        function checkEmpty(value, text) {
+
+            if (null == value || value.length == 0) {
+                alert(text + "不能为空");
+                return false;
+            }
+            return true;
+        }
+
         //日期格式化
         Vue.filter('formatDateFilter', function (value, formatString) {
             if (null == value)

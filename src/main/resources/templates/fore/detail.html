@@ -18,7 +18,7 @@
         Vue.use(VueLazyload, {
             preLoad: 1.3,
             error: '',
-            loading: '',
+            loading: 'img/芳乃-lazyload.jpg',
             attempt: 1
         })
 
@@ -29,6 +29,20 @@
             categories: [],
             tags: [],
             user: {},
+            pagination: [],
+            agoComment: [],
+            commentBean: {
+                "id": null,
+                "ctid": null,
+                "text": null,
+                "created": null,
+                "url": null,
+                "ownerName": null,
+                "mail": null,
+                "ip": null,
+                "status": null,
+                "parent": null
+            },
             flag: ''
         };
 
@@ -38,19 +52,81 @@
             data: data4Vue,
             mounted: function () { //mounted　表示这个 Vue 对象加载成功了
                 this.get();
+                //评论
+                this.list(0);
                 this.getCategories();
                 this.getTags();
                 this.getUser();
+
+
                 this.$nextTick(function () {
-                    // 添加事件监听
-                    base();//事件绑定
-                    AOS.init({
-                        easing: 'ease-out-back',
-                        duration: 1000
-                    });
+
                 })
             },
             methods: {
+                addComment: function (zyComment) {
+                    if (!checkEmpty(zyComment.name.trim(), "UserName"))
+                        return;
+                    if (!checkEmpty(zyComment.text.trim(), "Content"))
+                        return;
+
+                    var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/; '[\]]/im,
+                        regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】 [\]]/im;
+                    //昵称验证
+                    if(regEn.test(zyComment.name.trim()) || regCn.test(zyComment.name.trim())) {
+                        console.log("名称不能包含特殊字符.");
+                        return false;
+                    }
+
+
+                    var reMail = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/g;
+                    //邮箱验证
+                    if ( 0 != zyComment.email.trim().length ){
+                        if(false == reMail.test(zyComment.email.trim()))
+                            alert("邮箱格式似乎有些问题")
+                    }
+
+                    alert("评论功能开发中")
+                    return
+
+                    vue.commentBean.ownerName=zyComment.name.trim();
+                    vue.commentBean.text=zyComment.text.trim();
+                    vue.commentBean.mail=zyComment.email.trim();
+                    vue.commentBean.parent=zyComment.parent;
+
+                    console.log(vue.commentBean)
+                    var url = "/fore/comments/"+id;
+                    // axios.post(url,vue.commentBean).then(function (response) {
+                    //     if (0 == response.data.code){
+                    //         $("#articleComment").empty();
+                    //         vue.list(0)
+                    //     }else{
+                    //         alert(response.data.message)
+                    //     }
+                    //     vue.$nextTick(function () {
+                    //
+                    //     })
+                    // })
+
+                },
+                //评论
+                list: function (start) {
+                    var url = "fore/" + id + "/comments?start=" + start;
+                    axios.get(url).then(function (response) {
+                        vue.pagination = response.data;
+                        vue.agoComment = response.data.content;
+                        vue.$nextTick(function () {
+                            $("#articleComment").zyComment({
+                                "width": "355",
+                                "height": "33",
+                                "agoComment": vue.agoComment,
+                                "callback": function (comment) {
+                                    vue.addComment(comment);
+                                }
+                            });
+                        })
+                    })
+                },
                 getUser: function () {
                     var url = 'user';
                     axios.get(url).then(function (response) {
@@ -64,14 +140,32 @@
                             vue.bean = response.data.data;
                             vue.category = response.data.data.category;
                             vue.flag = 'true';
-                        }else {
-                            vue.flag ='false';
+                        } else {
+                            vue.flag = 'false';
                         }
 
 
                         //渲染完才把md转为html
                         vue.$nextTick(function () {
                             base();
+                            otherBgBind();
+
+                            bubbly({
+                                bubbles: 10,
+                                colorStart: "#e2f7e2",
+                                colorStop: "#dfeff7",
+                                blur: 4,
+                                canvas: document.querySelector("#background"),
+                                compose: "source-over",
+                                bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
+                            });
+
+                            AOS.init({
+                                easing: 'ease-out-back',
+                                duration: 1200,
+                                startEvent: 'scroll'
+                            });
+
                             testEditormd = editormd.markdownToHTML("test-editormd-view", {
                                 htmlDecode: "style,script,iframe",  // you can filter tags decode
                                 emoji: true,
@@ -80,23 +174,15 @@
                                 flowChart: true,  // 默认不解析
                                 sequenceDiagram: true,  // 默认不解析
                             });
-                            if (vue.flag=="false")
+                            if (vue.flag == "false")
                                 document.title = '页面出错了';
                             else
                                 document.title = vue.bean.title;
 
-                            bubbly({
-                                bubbles: 10,
-                                colorStart: "#fff4e6",
-                                colorStop: "#ffe9e4",
-                                blur: 4,
-                                canvas: document.querySelector("#background"),
-                                compose: "source-over",
-                                bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
-                            });
-
-                            if($('.waifu').css('display')=='block')
+                            if ($('.waifu').css('display') == 'block') {
                                 initModel("assets/waifu-tips.json?v=1.4.2")
+                            }
+
                         })
 
 
@@ -115,6 +201,14 @@
                         vue.tags = response.data;
                     })
                 },
+                jump: function (page) {
+                    $("#articleComment").empty();
+                    jump(page, vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function (start) {
+                    $("#articleComment").empty();
+                    jumpByNumber(start, vue);
+                }
             },
         });
 
@@ -126,11 +220,13 @@
 <div id="workArea" v-cloak>
     <div v-if="flag=='true'">
         <div th:replace="include/fore/top-bar::html"></div>
-        <canvas id="background" class="background-fixed"></canvas>
+        <div id="bg-context">
+            <canvas id="background" class="background-fixed"></canvas>
+        </div>
         <div th:replace="include/fore/detail::html"></div>
         <div th:replace="include/fore/footer::html"></div>
     </div>
-    <div v-if="flag=='false'" >
+    <div v-if="flag=='false'">
         <h1>页面出错了！</h1>
     </div>
 
@@ -141,7 +237,7 @@
     <script>
         AOS.init({
             easing: 'ease-out-back',
-            duration: 1000
+            duration: 1200
         });
     </script>
     <!-- aos动画结束 -->
@@ -173,6 +269,12 @@
 
     <script src="assets/waifu-tips.js?v=1.4.2"></script>
     <script src="assets/live2d.js?v=1.0.5"></script>
+
+
+    <script type="text/javascript">
+
+
+    </script>
 
 </div>
 </body>

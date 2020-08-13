@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
     $(function () {
         var data4Vue = {
-            uri: 'contents',
+            uri: 'comments',
             beans: [],
             pagination: {},
             bean: {},
@@ -43,39 +43,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                     });
                 },
-                add: function () {
-                    if (!checkEmpty(this.bean.name, "分类名称"))
-                        return;
-
-                    var url = this.uri;
-                    axios.post(url, this.bean).then(function (response) {
-                        vue.bean.name = '';
-                        vue.bean.description = '';
-                        vue.list(0);
-                    })
-                },
-                draft: function (id) {
-                    var url = this.uri + '/' + id + '/' + 'draft';
-                    axios.put(url, this.bean).then(function (response) {
-                        if (response.data.code == 0) {
-                            vue.list(vue.pagination.number);
-                        } else {
-                            alert(response.data.message)
-                        }
-                    })
-                },
-                publish: function (id) {
+                undo: function (id) {
                     var url = this.uri + '/' + id + '/' + 'published';
-                    axios.put(url, this.bean).then(function (response) {
+                    axios.put(url).then(function (response) {
                         if (response.data.code == 0) {
                             vue.list(vue.pagination.number);
                         } else {
                             alert(response.data.message)
                         }
                     })
-                },
-                undo: function () {
-                    alert("此功能还没做")
                 },
                 jump: function (page) {
                     jump(page, vue); //定义在adminHeader.html 中
@@ -105,7 +81,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">博客文章 > 所有文章</h1>
+                            <h1 class="m-0 text-dark">评论 > 所有评论</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -123,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">分类信息</h3>
+                        <h3 class="card-title">评论信息</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -141,33 +117,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <th style="width: 1%">
                                     ID
                                 </th>
-                                <th style="width: 15%">
-                                    标题
+                                <th style="width: 17%">
+                                    回复内容
                                 </th>
-                                <th style="width: 15%">
-                                    展示图
-                                </th>
-                                <th style="width: 11%">
-                                    创建时间
-                                </th>
-                                <th style="width: 11%">
-                                    最后修改时间
-                                </th>
-
-
-                                <th style="width: 7%">
-                                    访问密码
-                                </th>
-                                <th style="width: 1%">
-                                    评论
+                                <th style="width: 10%">
+                                    回复文章
                                 </th>
                                 <th style="width: 5%">
-                                    浏览数
+                                    评论者
+                                </th>
+                                <th style="width: 7%">
+                                    父级用户
+                                </th>
+                                <th style="width: 9%">
+                                    回复时间
+                                </th>
+                                <th style="width: 14%">
+                                    评论者邮箱
+                                </th>
+                                <th style="width: 13%">
+                                    评论者IP
+                                </th>
+                                <th style="width: 12%">
+                                    url
                                 </th>
                                 <th style="width: 5%">
                                     状态
                                 </th>
-                                <th style="width: 20%">
+                                <th style="width: 7%">
                                 </th>
                             </tr>
                             </thead>
@@ -177,50 +154,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     {{bean.id}}
                                 </td>
                                 <td>
-                                    {{bean.title}}
+                                    {{bean.text}}
                                 </td>
                                 <td>
-                                    {{bean.firstImg}}
+                                    <a :href='"/detail?id=" + bean.ctid'>{{bean.cttitle}}</a>
+                                </td>
+                                <td>
+                                    {{bean.ownerName}}
+                                </td>
+                                <td>
+                                    {{bean.parentOwnerName}}
                                 </td>
                                 <td>
                                     {{bean.created | formatDateFilter}}
                                 </td>
                                 <td>
-                                    {{bean.modified | formatDateFilter}}
+                                    {{bean.mail}}
                                 </td>
-
-
                                 <td>
-                                    {{bean.password}}
+                                    {{bean.ip}}
                                 </td>
-                                <td class="project_progress">
-                                    {{bean.allowComment}}
-                                </td>
-                                <td class="project-state">
-                                    {{bean.pvNum}}
+                                <td>
+                                    {{bean.url}}
                                 </td>
                                 <td>
                                     {{bean.status}}
                                 </td>
                                 <td class="project-actions text-right">
-                  <span class="btn btn-primary btn-sm" href="#" v-if="bean.status=='draft'" @Click="publish(bean.id)">
-                    <i class="fas fa-share">
-                    </i>
-                    发布
-                  </span>
-                                    <span class="btn btn-warning btn-sm" href="#" v-else-if="bean.status=='published'"
-                                          @Click="draft(bean.id)">
-                    <i class="fas fa-reply">
-                    </i>
-                    撤下
-                  </span>
-                                    <a :href="'admin_content_edit?id='+bean.id">
-                                        <span class="btn btn-info btn-sm">
-                    <i class="fas fa-pencil-alt">
-                    </i>
-                    编辑
-                  </span>
-                                    </a>
 
                                     <span class="btn btn-danger btn-sm" href="#" @Click="deleteBean(bean.id)"
                                           v-if="bean.status!='deleted'">

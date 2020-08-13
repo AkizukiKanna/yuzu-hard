@@ -18,7 +18,7 @@
         Vue.use(VueLazyload, {
             preLoad: 1.3,
             error: '',
-            loading: '',
+            loading: 'img/芳乃-lazyload.jpg',
             attempt: 1
         })
 
@@ -43,15 +43,10 @@
                 this.getCategories();
                 this.getTags();
                 this.$nextTick(function () {
-                    bubbly({
-                        bubbles: 10,
-                        colorStart: "#fff4e6",
-                        colorStop: "#ffe9e4",
-                        blur: 4,
-                        canvas: document.querySelector("#background"),
-                        compose: "source-over",
-                        bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
-                    });
+
+
+
+
                 })
             },
             methods: {
@@ -77,9 +72,21 @@
                         vue.$nextTick(function () {
                             AOS.init({
                                 easing: 'ease-out-back',
-                                duration: 1000
+                                duration: 1200,
+                                startEvent: 'scroll'
                             });
                             base();
+                            otherBgBind();
+                            bubbly({
+                                bubbles: 10,
+                                colorStart: "#e2f7e2",
+                                colorStop: "#dfeff7",
+                                blur: 4,
+                                canvas: document.querySelector("#background"),
+                                compose: "source-over",
+                                bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, .3)`
+                            });
+
                             if (vue.flag=="false")
                                 document.title = '页面出错了';
                             else
@@ -131,13 +138,16 @@
 <div id="workArea" v-cloak>
     <div v-if="flag=='true'">
         <div th:replace="include/fore/top-bar::html"></div>
-        <canvas id="background" class="background-fixed"></canvas>
+        <div id="bg-context">
+            <canvas id="background" class="background-fixed"></canvas>
+        </div>
         <div th:replace="include/fore/indexByTag::html"></div>
         <div th:replace="include/fore/footer::html"></div>
     </div>
     <div v-if="flag=='false'" >
         <h1>页面出错了！</h1>
     </div>
+</div>
 
 
     <!-- aos动画开始 -->
@@ -146,7 +156,7 @@
     <script>
         AOS.init({
             easing: 'ease-out-back',
-            duration: 1000
+            duration: 1200
         });
     </script>
     <!-- aos动画结束 -->
@@ -179,7 +189,7 @@
     <script src="assets/waifu-tips.js?v=1.4.2"></script>
     <script src="assets/live2d.js?v=1.0.5"></script>
 
-</div>
+
 </body>
 
 </html>

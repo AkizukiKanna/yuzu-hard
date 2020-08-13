@@ -1,5 +1,5 @@
 <!-- 首页顶部大图片容器 -->
-<div  th:fragment="html" v-lazy-container="{ selector: 'img' }">
+<div th:fragment="html" >
     <!-- 首页顶部大图片容器 -->
     <div class="head-content-container">
 
@@ -9,7 +9,7 @@
                 <!-- 头像 -->
                 <div class="head-img">
                     <a href="https://www.baidu.com/s?wd=%E6%9C%9D%E6%AD%A6%E8%8A%B3%E4%B9%83%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80&rsv_spt=1&rsv_iqid=0x88e85fb900119ebb&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_dl=tb&rsv_sug3=25&rsv_sug1=16&rsv_sug7=101&rsv_sug2=0&rsv_btype=i&inputT=7942&rsv_sug4=7942">
-                        <img :data-src="user.profilePicture" alt="头像">
+                        <img :src="user.profilePicture" alt="头像">
                     </a>
                 </div>
                 <!-- 个签 -->
@@ -20,9 +20,9 @@
                 <!-- 联系方式 -->
                 <div class="link-wrapper">
                     <ul class="link">
-                        <li><a href="#nowhere"><img data-src="img/qq.png" alt=""></a></li>
-                        <li><a href="#nowhere"><img data-src="img/wechat.png" alt=""></a></li>
-                        <li><a href="#nowhere"><img data-src="img/email.svg" alt=""></a></li>
+                        <li><a href="#nowhere"><img src="img/qq.png" alt=""></a></li>
+                        <li><a href="#nowhere"><img src="img/wechat.png" alt=""></a></li>
+                        <li><a href="#nowhere"><img src="img/email.svg" alt=""></a></li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +39,6 @@
         </div>
 
 
-
         <!-- 移动端下面的圆弧 -->
         <!-- <div class="circle visible-xs">
 
@@ -47,47 +46,49 @@
     </div>
 
 
-    <canvas id="background" class="background-home-absolute"></canvas>
+<!--    <canvas id="background" class="background-home-absolute"></canvas>-->
 
     <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
     <!-- 首页中间文章 -->
-    <div class="article-wrapper">
+    <div class="article-wrapper" v-lazy-container="{ selector: 'img' }">
         <div id="content" class="home-content">
 
             <h3>
                 <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;&nbsp;最近更新
             </h3>
 
-            <article aos="fade-up" aos-once="true" v-for="bean in beans">
-                <!-- 图片 -->
-                <div class="post-thumb">
-                    <a :href='"/detail?id="+bean.content.id' >
-                        <img :data-src="bean.content.firstImg"  class="lazyload">
+            <!--aos-once="false"-->
+            <article class="yh-translucent-wrapper" aos="fade-up"  v-for="bean in beans">
+                <!-- 标题 -->
+                <h3 class="yh-lighting-title">
+                    <a :href='"/detail?id="+bean.content.id'>
+                        <span>
+                            {{bean.content.title}}
+                        </span>
                     </a>
+                </h3>
+                <!-- 标签 -->
+                <div class="yh-thumb-tag">
+                    <span><i class="fa fa-calendar"></i>&nbsp;{{bean.content.modified | formatDateFilter}}</span>
+                    <span><i class="fa fa-eye"></i>&nbsp;--</span>
+                    <span v-for="tag in bean.tag"><a :href="'/indexByTag?tid='+tag.tagId"><i class="fa fa-tag"></i>&nbsp;{{tag.tagName}}</a></span>
                 </div>
-                <!-- 文章 -->
-                <div class="post-content-wrapper">
-                    <div class="post-content">
-                        <!-- 时间 -->
-                        <div class="post-date">
-                            发布于 {{bean.content.modified | formatDateFilter}}
-                        </div>
-                        <!-- 标题 -->
-                        <a :href='"/detail?id="+bean.content.id' >
-                            <h3>{{bean.content.title}}</h3>
-                        </a>
-                        <!-- 标签 -->
-                        <div class="post-meta">
-                            <span>-- 热度</span>
-                            <span v-for="tag in bean.tag"><a :href="'/indexByTag?tid='+tag.tagId">{{tag.tagName}}</a></span>
-                        </div>
-                        <!-- 内容 -->
-                        <div class="content">
+                <!-- 图片 -->
+                <div class="yh-pic">
+                    <a :href='"/detail?id="+bean.content.id'>
+                        <img :data-src="bean.content.firstImg" class="lazyload">
+                        <div class="hidden-xs">
                             <p>{{bean.content.articleAbstract}}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
+                <!-- 内容 -->
+                <div class="yh-content visible-xs">
+                    <p>{{bean.content.articleAbstract}}</p>
+                </div>
+
+
             </article>
         </div>
     </div>

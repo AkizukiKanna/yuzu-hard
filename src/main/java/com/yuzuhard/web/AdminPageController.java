@@ -59,4 +59,9 @@ public class AdminPageController {
     public String login() {
         return "admin/login";
     }
+
+    @GetMapping("/admin_comment_list")
+    public String listComment(){
+        return "admin/listComment";
+    }
 }
