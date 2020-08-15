@@ -24,6 +24,9 @@ public class CommentDto {
     //前台用 已格式化日期
     String createdDate;
 
+    public CommentDto() {
+    }
+
     public CommentDto(int id, String text, String createdDate, String ownerName, int parent) {
         this.id = id;
         this.text = text;

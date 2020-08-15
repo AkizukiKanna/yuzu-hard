@@ -7,9 +7,11 @@ import com.yuzuhard.pojo.Content;
 import com.yuzuhard.service.CommentService;
 import com.yuzuhard.service.ContentService;
 import com.yuzuhard.service.Ct_t_relationshipService;
+import com.yuzuhard.task.AsyncTask;
 import com.yuzuhard.util.IPUtill;
 import com.yuzuhard.util.Page4Navigator;
 import com.yuzuhard.util.Result;
+import com.yuzuhard.util.SendMailSmtp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -27,6 +29,8 @@ public class ForeController {
     Ct_t_relationshipService ct_t_relationshipService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    AsyncTask asyncTask;
 
 //    @GetMapping("/fore/contents")
 //    public Object getContents(){
@@ -103,7 +107,7 @@ public class ForeController {
     @GetMapping("/{ctid}/comments")
     public Page4Navigator<Object[]> list(@PathVariable("ctid") int ctid,
                                          @RequestParam(value = "start", defaultValue = "0") int start,
-                                         @RequestParam(value = "size", defaultValue = "7") int size) throws Exception {
+                                         @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         start = 0 < start ? start : 0;
         Page4Navigator<Object[]> page = commentService.listByCTid(ctid,start, size, 5); //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
         return page;
@@ -122,6 +126,10 @@ public class ForeController {
             bean.setUrl("www.yuzu-hard.xyz");
         }
         commentService.add(bean);
+
+        asyncTask.doTaskSendMail(bean);
         return Result.success();
     }
+
+
 }

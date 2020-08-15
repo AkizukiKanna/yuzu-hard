@@ -6,6 +6,9 @@ import com.yuzuhard.dto.ContentDto;
 import com.yuzuhard.pojo.Comment;
 import com.yuzuhard.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "comments")
 public class CommentService {
     //审核中、已发布、已删除
     public static final String checking = "checking";
@@ -32,6 +36,7 @@ public class CommentService {
     @Autowired
     CommentDAO commentDAO;
 
+    @Cacheable(key = "'comments-page-'+#p0+ '-' + #p1+ '-' + #p2")
     public Page4Navigator<Object[]> list(int start, int size, int navigatePages){
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
@@ -62,16 +67,19 @@ public class CommentService {
 
 
     @Transactional
+    @CacheEvict(allEntries=true)
     public void delete(int id){
         commentDAO.updateStatus(id,deleted);
     }
 
     @Transactional
+    @CacheEvict(allEntries=true)
     public void undo(int id){
         commentDAO.updateStatus(id,published);
     }
 
     //前台分页评论
+    @Cacheable(key = "'commentsByCTid-page-'+#p0+ '-' + #p1+ '-' + #p2 + '-' + #p3")
     public Page4Navigator<Object[]> listByCTid(int ctid ,int start, int size, int navigatePages){
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
@@ -137,8 +145,14 @@ public class CommentService {
     }
 
 
+    @CacheEvict(allEntries=true)
     public void add(Comment bean){
         bean.setStatus(published);
         commentDAO.save(bean);
+    }
+
+    @Cacheable(key = "'comments-one-'+ #p0")
+    public Comment get(int id){
+        return commentDAO.findById(id).get();
     }
 }
