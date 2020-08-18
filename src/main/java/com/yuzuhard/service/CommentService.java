@@ -155,4 +155,23 @@ public class CommentService {
     public Comment get(int id){
         return commentDAO.findById(id).get();
     }
+
+    @Cacheable(key = "'commentsRecently-'+#p0")
+    public List<CommentDto> findRecentlyComments(int num){
+        List<Object[]> objects = commentDAO.findRecentlyComments(num);
+        List list = new ArrayList();
+        for (Object[] o : objects){
+            CommentDto commentDto = new CommentDto(
+                    (Integer)o[0],
+                    (Integer)o[1],
+                    (String)o[2],
+                    (String)o[3],
+                    (Date) o[4],
+                    (String) o[5],
+                    (String) o[6]);
+
+            list.add(commentDto);
+        }
+        return list;
+    }
 }

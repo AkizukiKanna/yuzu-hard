@@ -1,10 +1,13 @@
 package com.yuzuhard.web;
 
+import com.yuzuhard.dto.CommentDto;
 import com.yuzuhard.service.CommentService;
 import com.yuzuhard.util.Page4Navigator;
 import com.yuzuhard.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class CommentController {
@@ -30,5 +33,4 @@ public class CommentController {
         commentService.undo(id);
         return Result.success();
     }
-
 }

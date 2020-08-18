@@ -26,6 +26,7 @@
             user: {},
             pagination: [],
             agoComment: [],
+            recentlyComments:[],
             commentBean: {
                 "id": null,
                 "ctid": null,
@@ -51,6 +52,7 @@
                 this.getCategories();
                 this.getTags();
                 this.getUser();
+                this.getRecentlyComments();
 
 
                 this.$nextTick(function () {
@@ -184,6 +186,12 @@
                         vue.tags = response.data;
                     })
                 },
+                getRecentlyComments:function(){
+                    var url = 'fore/findRecentlyComments';
+                    axios.get(url).then(function (response) {
+                        vue.recentlyComments = response.data;
+                    })
+                },
                 jump: function (page) {
                     $("#articleComment").empty();
                     jump(page, vue); //定义在adminHeader.html 中
@@ -191,6 +199,10 @@
                 jumpByNumber: function (start) {
                     $("#articleComment").empty();
                     jumpByNumber(start, vue);
+                },
+                getRandomNum: function (min, max) {
+                    //生成从minNum到maxNum的随机数
+                    return parseInt(Math.random() * (max - min + 1) + min, 10);
                 }
             },
         });

@@ -35,6 +35,16 @@ public class CommentDto {
         this.parent = parent;
     }
 
+    public CommentDto(int id, int CTid, String CTtitle, String text, Date created, String url, String ownerName) {
+        this.id = id;
+        this.CTid = CTid;
+        this.CTtitle = CTtitle;
+        this.text = text;
+        this.created = created;
+        this.url = url;
+        this.ownerName = ownerName;
+    }
+
     public CommentDto(int id, int CTid, String CTtitle, String text, Date created, String url, String ownerName, String mail, String ip, String status, String parentOwnerName) {
         this.id = id;
         this.CTid = CTid;

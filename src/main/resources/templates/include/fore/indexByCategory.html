@@ -1,16 +1,16 @@
 <!-- 背景容器 -->
-<div class="bg" th:fragment="html" v-lazy-container="{ selector: 'img' }">
+<div class="bg" th:fragment="html" >
 
     <div id="detail-content">
 
         <!-- 首页中间文章 -->
-        <div class="article-wrapper">
+        <div class="article-wrapper" v-lazy-container="{ selector: 'img' }">
             <div class="content-left">
 
                 <h3 class="yh-translucent-wrapper" aos="zoom-in">
                     分类：<span>{{categoryName}}</span>
                 </h3>
-                <article class="yh-translucent-wrapper" aos="flip-up"  v-for="bean in beans">
+                <article class="yh-translucent-article" aos="flip-up"  v-for="bean in beans">
                     <!-- 标题 -->
                     <h3 class="yh-lighting-title">
                         <a :href='"/detail?id="+bean.content.id'>

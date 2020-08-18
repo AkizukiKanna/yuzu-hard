@@ -36,4 +36,12 @@ public interface CommentDAO extends JpaRepository<Comment, Integer> {
             countQuery = "select count(*) from comment where status='published' and parent=:parent "
             ,nativeQuery = true)
     List<Object[]> findChildByParent(int parent);
+
+    @Query(value = "select cm.id  cmid,ct.id ctid,  ct.title,cm.text,cm.created, cm.url , cm.ownerName " +
+            " from comment cm , content ct " +
+            " where cm.status='published' and cm.ctid = ct.id " +
+            " order by cm.id desc " +
+            " limit 0, :num "
+            ,nativeQuery = true)
+    List<Object[]> findRecentlyComments(int num);
 }

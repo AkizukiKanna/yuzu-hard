@@ -1,5 +1,6 @@
 package com.yuzuhard.web;
 
+import com.yuzuhard.dto.CommentDto;
 import com.yuzuhard.dto.ContentDto;
 import com.yuzuhard.dto.Ct_t_relationshipDto;
 import com.yuzuhard.pojo.Comment;
@@ -131,5 +132,11 @@ public class ForeController {
         return Result.success();
     }
 
+
+    //查询最近10条评论
+    @GetMapping("/findRecentlyComments")
+    public List<CommentDto> findRecentlyComments(@RequestParam(value = "num",defaultValue = "10") int num) throws Exception{
+        return commentService.findRecentlyComments(num);
+    }
 
 }

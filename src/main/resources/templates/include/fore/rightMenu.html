@@ -1,16 +1,41 @@
 <div class="menu-wrapper" th:fragment="html">
     <ul class="menu-right">
         <li>
-            <ul class="category yh-translucent-wrapper" aos="flip-left">
+            <ul class="yh-translucent-panel" aos="flip-left">
                 <h3>分类</h3>
-                <li class="yh-translucent-tag" v-for="category in categories"><a :href="'/indexByCategory?cgid='+category.id">{{category.name}}</a></li>
+                <li  v-for="category in categories"><a :href="'/indexByCategory?cgid='+category.id">{{category.name}}</a></li>
             </ul>
         </li>
 
         <li>
-            <ul class="tag yh-translucent-wrapper" aos="fade-up">
+            <ul class="yh-translucent-tag" aos="fade-left">
                 <h3>标签</h3>
-                <li class="yh-translucent-tag" v-for="tag in tags"><a :href="'/indexByTag?tid='+tag.id">{{tag.name}}</a></li>
+                <div class="item-wrapper">
+                    <li :class="'tag-bg-' + getRandomNum(1,7) + ' tag-fontsize-'+ getRandomNum(1,6)"  v-for="tag in tags"><a :href="'/indexByTag?tid='+tag.id">{{tag.name}}</a></li>
+                </div>
+            </ul>
+        </li>
+
+        <li>
+            <ul class="yh-translucent-comment" aos="fade-up">
+                <h3>最新评论</h3>
+                <div class="yh-comment-wrapper">
+                    <li v-for="recentlyComment in recentlyComments">
+                        <a :href="'/detail?id=' + recentlyComment.ctid">
+                            <div class="yh-comment-body">
+                                <img src="http://yuzu-hard.cdn.yuzu-hard.xyz/randomPics/2020-07-17/984caecf13b7426c8437d43910d8076b-5a068dc9a786c917acafd7fbc73d70cf39c75796.jpg" />
+                                <p>
+                                    {{recentlyComment.text}}
+                                </p>
+                            </div>
+                            <div class="yh-comment-mask hidden-xs">
+                                <p>
+                                    <span>FROM</span> {{recentlyComment.ownerName}} <span>IN</span> {{recentlyComment.cttitle}}
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </div>
             </ul>
         </li>
     </ul>
