@@ -28,8 +28,8 @@ public class SendMailSmtp {
         }
 
 
-        final String username = "yuzu-hard@outlook.com";  // like yourname@outlook.com
-        final String password = "sun981006";   // password here
+        final String username = "";  // like yourname@outlook.com
+        final String password = "";   // password here
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
