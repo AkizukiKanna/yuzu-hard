@@ -15,12 +15,12 @@
 //    public static void sendHtmlMail() {
 //        try {
 //            String from = "yuzu-hard";//发件人昵称展示   *
-//            String[] to = {"2026085674@qq.com"};//接收邮箱
+//            String[] to = {""};//接收邮箱
 //            String subject = "邮件主题";//邮件主题   *
 //            String text = "邮件内容";
 //            String host = "smtphz.qiye.163.com";//163企业邮箱smtp   *
-//            String username = "yuzu-hard@outlook.com";//企业邮箱   *
-//            String password = "TdphKnTNGTuEUUf8";//企业邮箱密码   *
+//            String username = "";//企业邮箱   *
+//            String password = "";//企业邮箱密码   *
 //
 //            //设置服务器验证信息
 //            Properties prop = new Properties();
